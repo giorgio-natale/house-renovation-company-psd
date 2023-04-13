@@ -1,0 +1,497 @@
+openapi: 3.0.0
+info:
+  title: api
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'http://localhost:3000'
+tags:
+  - name: quotation
+  - name: project
+paths:
+  /rfq:
+    post:
+      summary: ''
+      tags:
+        - quotation
+      operationId: registerRequestForQuotation
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rfqNumber:
+                    type: string
+                  links:
+                    type: object
+                    properties:
+                      quotation:
+                        type: string
+                        format: uri
+                    required:
+                      - quotation
+                required:
+                  - rfqNumber
+                  - links
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rfq'
+  '/rfq/{rfqNumber}/quotation':
+    get:
+      parameters:
+      - schema:
+          type: string
+        name: rfqNumber
+        in: path
+        required: true
+      summary: ''
+      tags:
+        - quotation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+        '202':
+          description: Accepted
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: getQuotation
+  '/rfq/{rfqNumber}':
+    delete:
+      parameters:
+      - schema:
+          type: string
+        name: rfqNumber
+        in: path
+        required: true
+      summary: ''
+      operationId: deleteRequestForQuotation
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      tags:
+        - quotation
+  /projects:
+    post:
+      summary: ''
+      tags:
+        - project
+      operationId: registerProject
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'          
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+  '/projects/{projectId}/status':
+    put:
+      parameters:
+        - schema:
+            type: string
+          name: projectId
+          in: path
+          required: true
+      summary: ''
+      tags:
+        - project
+      operationId: updateProjectStatus
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectStatus'
+  '/projects/{projectId}/planProposals':
+    post:
+      parameters:
+      - schema:
+          type: string
+        name: projectId
+        in: path
+        required: true
+      summary: ''
+      tags:
+        - project
+      operationId: registerPlanProposal
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanProposal'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanProposal'
+  '/projects/{projectId}/planProposals/{planProposalId}/status':
+    get:
+      parameters:
+      - schema:
+          type: string
+        name: projectId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: planProposalId
+        in: path
+        required: true
+      summary: ''
+      tags:
+        - project
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanProposalStatus'
+        '202':
+          description: Accepted
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: getPlanProposalStatus
+  '/projects/{projectId}/jobs':
+    get:
+      parameters:
+      - schema:
+          type: string
+        name: projectId
+        in: path
+        required: true
+      - schema:
+          type: string
+          format: date
+        in: query
+        name: date
+      summary: ''
+      tags:
+        - project
+      operationId: getJobs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  
+components:
+  schemas:
+    Rfq:
+      title: Rfq
+      type: object
+      properties:
+        rfqNumber:
+          type: string
+        customerContact:
+          $ref: '#/components/schemas/ContactInformation'
+        renovationCompanyContact:
+          $ref: '#/components/schemas/ContactInformation'
+        site:
+          $ref: '#/components/schemas/Site'
+        items:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/QuotationItem'
+        estimatedStartDate:
+          type: string
+          format: date
+        waterPoints:
+          type: integer
+          format: int32
+        links:
+          type: object
+          required:
+            - quotation
+          properties:
+            quotation:
+              type: string
+              format: uri
+          readOnly: true
+      required:
+        - rfqNumber
+        - renovationCompanyContact
+        - site
+        - items
+        - estimatedStartDate
+        - waterPoints
+        - links
+    ContactInformation:
+      title: ContactInformation
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: string
+        emailAddress:
+          type: string
+      required:
+        - name
+        - address
+        - emailAddress
+    Site:
+      title: Site
+      type: object
+      properties:
+        address:
+          type: string
+        squareMeters:
+          type: number
+          format: float
+          minimum: 0
+        constructionYear:
+          type: string
+      required:
+        - address
+        - squareMeters
+    QuotationItem:
+      title: QuotationItem
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+      required:
+        - title
+    Quotation:
+      title: Quotation
+      type: object
+      properties:
+        pricedItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuotationPricedItem'
+        status:
+          type: string
+          enum:
+            - READY
+            - CANCELLED
+      required:
+        - status
+    QuotationPricedItem:
+      title: QuotationPricedItem
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+      required:
+        - title
+        - price
+    Project:
+      title: Project
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date
+        rfqNumber:
+          type: string
+        links:
+          type: object
+          required:
+            - projectStatus
+            - planProposals
+          properties:
+            projectStatus:
+              type: string
+              format: uri
+            planProposals:
+              type: string
+              format: uri
+          readOnly: true
+      required:
+        - id
+        - name
+        - startDate
+        - rfqNumber
+        - links
+    ProjectStatus:
+      title: ProjectStatus
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - NOT_STARTED
+            - IN_PROGRESS
+            - COMPLETED
+      required:
+        - status
+    Job:
+      title: Job
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        title:
+          type: string
+        description:
+          type: string
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+        numberOfRequiredPlumbers:
+          type: integer
+          format: int32
+        status:
+          type: string
+          enum:
+            - NOT_STARTED
+            - IN_PROGRESS
+            - COMPLETED
+            - FAILED
+        links:
+          type: object
+          required:
+            - projectStatus
+          properties:
+            projectStatus:
+              type: string
+              format: uri
+          readOnly: true
+      required:
+        - id
+        - title
+        - description
+        - startDateTime
+        - endDateTime
+        - numberOfRequiredPlumbers
+        - status
+        - links
+    JobProposal:
+      title: JobProposal
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+      required:
+        - title
+        - description
+        - startDateTime
+        - endDateTime
+    PlanProposal:
+      title: PlanProposal
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        jobProposals:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobProposal'
+        links:
+          type: object
+          required:
+            - planProposalStatus
+          properties:
+            planProposalStatus:
+              type: string
+              format: uri
+          readOnly: true
+      required:
+        - id
+        - jobProposals
+        - links
+    PlanProposalStatus:
+      title: PlanProposalStatus
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - ACCEPTED
+            - DECLINED
+        links:
+          type: object
+          properties:
+            planProposals:
+              type: string
+              format: uri
+            jobs:
+              type: string
+              format: uri            
+          readOnly: true
+      required:
+        - status
+        - links
