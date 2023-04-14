@@ -14,7 +14,7 @@ paths:
       summary: ''
       tags:
         - quotation
-      operationId: post-rfq
+      operationId: registerRequestForQuotation
       responses:
         '201':
           description: Created
@@ -36,7 +36,7 @@ paths:
       summary: ''
       tags:
         - project
-      operationId: post-projects
+      operationId: registerProject
       responses:
         '201':
           description: Created
@@ -64,7 +64,7 @@ paths:
           required: true
       tags:
         - project
-      operationId: put-projects-projectId-status
+      operationId: updateProjectStatus
       responses:
         '200':
           description: OK
@@ -90,7 +90,7 @@ paths:
           required: true
       tags:
         - project
-      operationId: post-projects-projectId-planProposals
+      operationId: registerPlanProposal
       responses:
         '201':
           description: Created
@@ -125,7 +125,7 @@ paths:
           in: query
       tags:
         - project
-      operationId: get-projects-projectId-jobs
+      operationId: getJobs
       responses:
         '200':
           description: OK
@@ -152,7 +152,7 @@ paths:
           required: true
       tags:
         - quotation
-      operationId: delete-rfq-rfqNumber
+      operationId: deleteRequestForQuotation
       responses:
         '200':
           description: OK
