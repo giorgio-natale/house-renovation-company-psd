@@ -1,6 +1,6 @@
 module.exports.deleteRequestForQuotation = function deleteRequestForQuotation(req, res) {
-    res.send({
-        message: 'This is the mockup controller for deleteRequestForQuotation'
-    });
+    const rfqNumber = req.params.rfqNumber;
+    delete db.quotationDb[rfqNumber];
+    sender.sendResponse(res, 200);
 }
 
