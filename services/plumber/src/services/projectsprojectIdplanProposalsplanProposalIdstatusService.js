@@ -9,11 +9,11 @@ module.exports.getPlanProposalStatus = function getPlanProposalStatus(req, res) 
         return;        
     }
 
-    if(projectDb[projId].planProposals[planProposalId].status === "PENDING")
+    if(db.projectDb[projId].planProposals[planProposalId].status === "PENDING")
         res.status(202).send();
     else
         res.status(200).send({
-            status: projectDb[projId].planProposals[planProposalId].status,
+            status: db.projectDb[projId].planProposals[planProposalId].status,
             links: {
                 planProposals: `http://localhost:${req.socket.localPort}/projects/${projId}/planProposals`,
                 jobs: `http://localhost:${req.socket.localPort}/projects/${projId}/jobs`      
