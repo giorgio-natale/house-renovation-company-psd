@@ -218,9 +218,21 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Job'
+                type: object
+                properties:
+                  jobs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Job'
+                  links:
+                    type: object
+                    required:
+                      - projectStatus
+                    properties:
+                      projectStatus:
+                        type: string
+                        format: uri
+                    readOnly: true
         '400':
           description: Bad Request
         '404':
@@ -412,15 +424,6 @@ components:
             - IN_PROGRESS
             - COMPLETED
             - FAILED
-        links:
-          type: object
-          required:
-            - projectStatus
-          properties:
-            projectStatus:
-              type: string
-              format: uri
-          readOnly: true
       required:
         - id
         - title
@@ -429,7 +432,6 @@ components:
         - endDateTime
         - numberOfRequiredPlumbers
         - status
-        - links
     JobProposal:
       title: JobProposal
       type: object
