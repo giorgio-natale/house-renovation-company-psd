@@ -4,6 +4,7 @@ const sender =  require('../utils/sender.js');
 module.exports.registerRequestForQuotation = function registerRequestForQuotation(req, res) {
     const rfqNumber = req.body.rfqNumber;
     const rfq = req.body;
+    
     if(db.quotationDb[rfqNumber] !== undefined){
         sender.sendResponse(res, 400,
             `The request for quotation number ${rfqNumber} is already registered in the systems`    

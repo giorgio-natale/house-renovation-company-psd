@@ -22,7 +22,6 @@ module.exports.registerProject = function registerProject(req, res) {
     if (db.quotationDb[rfqNumber].quotation === null || db.quotationDb[rfqNumber].quotation.status !== "READY"){
         sender.sendResponse(res, 400,
             `The project is not associated to a valid quotation`
-            
         );
         return;
     }
@@ -34,9 +33,9 @@ module.exports.registerProject = function registerProject(req, res) {
 
     db.projectDb[generatedProjId] = {
         project: {
+            ...req.body,
             id: generatedProjId,
-            status: "NOT_STARTED",
-            ...req.body
+            status: "NOT_STARTED"
         },
         planProposals: [],
         jobs: []
