@@ -20,6 +20,10 @@ paths:
           description: Created
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
         '500':
           description: Internal Server Error
       requestBody:
@@ -50,6 +54,10 @@ paths:
                   description: OK
                 '400':
                   description: Bad Request
+                  content:
+                    application/json:
+                      schema:
+                        type: string
                 '404':
                   description: Not Found
                 '500':
@@ -86,6 +94,10 @@ paths:
                 $ref: '#/components/schemas/Project'          
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
         '500':
           description: Internal Server Error
       requestBody:
@@ -110,6 +122,10 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
         '404':
           description: Not Found
         '500':
@@ -136,6 +152,10 @@ paths:
           description: Created
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
         '404':
           description: Not Found
         '500':
@@ -177,6 +197,10 @@ paths:
                   description: OK
                 '400':
                   description: Bad Request
+                  content:
+                    application/json:
+                      schema:
+                        type: string
                 '404':
                   description: Not Found
                 '500':
@@ -221,6 +245,10 @@ paths:
                     readOnly: true
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
         '404':
           description: Not Found
         '500':
