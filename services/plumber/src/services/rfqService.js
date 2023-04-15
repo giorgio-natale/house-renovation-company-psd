@@ -1,10 +1,13 @@
-const db = require('../db/db.js');
+const db = require('../utils/db.js');
+const sender =  require('../utils/sender.js');
 
 module.exports.registerRequestForQuotation = function registerRequestForQuotation(req, res) {
     const rfqNumber = req.body.rfqNumber;
     const rfq = req.body;
     if(db.quotationDb[rfqNumber] !== undefined){
-        res.status(400).send();
+        sender.sendResponse(res, 400,
+            `The request for quotation number ${rfqNumber} is already registered in the systems`    
+        );
         return;
     }
 
@@ -27,11 +30,10 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
         }
     }, 10000);
 
-    res.status(201).send({
+    sender.sendResponse(res, 201, {
         rfqNumber: rfqNumber,
         links: {
             quotation: `http://localhost:${req.socket.localPort}/rfq/${rfqNumber}/quotation`
         }
     });
 }
-

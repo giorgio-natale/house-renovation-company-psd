@@ -1,16 +1,15 @@
-const db = require('../db/db.js');
+const db = require('../utils/db.js');
+const sender =  require('../utils/sender.js');
 
 module.exports.getQuotation = function getQuotation(req, res) {
     const rfqNumber = req.params.rfqNumber;
     if(db.quotationDb[rfqNumber] === undefined){
-        res.status(404).send();
+        sender.sendResponse(res, 404);
         return;        
     }
     if(db.quotationDb[rfqNumber].quotation === null){
-        res.status(202).send();
+        sender.sendResponse(res, 202);
         return;
     }
-
-    res.status(200).send(db.quotationDb[rfqNumber].quotation);
+    sender.sendResponse(res, 200, db.quotationDb[rfqNumber].quotation);
 }
-
