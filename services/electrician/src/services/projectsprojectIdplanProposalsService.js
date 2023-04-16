@@ -12,7 +12,7 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
         return;
     }
     
-    const generatedPlanProposalId = db.getNextVal("planProposalId");
+    const generatedPlanProposalId = db.getNextVal("planProposalId").toString();
 
     db.projectDb[projId].planProposals[generatedPlanProposalId] = {
         id: generatedPlanProposalId,

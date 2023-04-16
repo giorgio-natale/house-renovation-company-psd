@@ -27,7 +27,7 @@ module.exports.registerProject = function registerProject(req, res) {
         return;
     }
 
-    generatedProjId = db.getNextVal("projectId");
+    generatedProjId = db.getNextVal("projectId").toString();
 
     db.projectDb[generatedProjId] = {
         project: {
