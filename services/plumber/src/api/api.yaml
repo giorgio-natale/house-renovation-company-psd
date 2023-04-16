@@ -49,11 +49,37 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Rfq'
+            example:
+              rfqNumber: RFQ1
+              customerContact:
+                name: householder
+                address: my address
+                phoneNumber: "03512345678"
+                emailAddress: myEmailAddress
+              renovationCompanyContact:
+                name: Acme Corp
+                address: Fairfield, New Jersey
+                phoneNumber: "39212345678"
+                emailAddress: acme-corp@acme.com
+              site:
+                address: my address
+                squareMeters: 127
+                constructionYear: "1999"
+              items:
+              - title: water pipe installation
+                description: Installation of pipes
+              - title: Water points check
+                description: Checking water points
+              - title: Water flow test
+                description: Water flow test
+              estimatedStartDate: '2023-04-18'
+              waterPoints: 15
   '/rfq/{rfqNumber}/quotation':
     get:
       parameters:
       - schema:
           type: string
+        example: RFQ1
         name: rfqNumber
         in: path
         required: true
@@ -79,6 +105,7 @@ paths:
       parameters:
       - schema:
           type: string
+        example: RFQ1
         name: rfqNumber
         in: path
         required: true
@@ -117,11 +144,16 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Project'
+            example:
+              name: Renovation project 1
+              startDate: '2023-04-18'
+              rfqNumber: RFQ1
   '/projects/{projectId}/status':
     put:
       parameters:
         - schema:
             type: string
+          example: "1"
           name: projectId
           in: path
           required: true
@@ -147,11 +179,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectStatus'
+            example:
+              status: IN_PROGRESS
   '/projects/{projectId}/planProposals':
     post:
       parameters:
       - schema:
           type: string
+        example: "1"
         name: projectId
         in: path
         required: true
@@ -181,16 +216,32 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PlanProposal'
+            example:
+              jobProposals:
+              - title: Water pipe installation
+                description: Installation of pipes
+                startDateTime: '2023-04-18T09:00:00.000Z'
+                endDateTime: '2023-04-18T17:00:00.000Z'
+              - title: Water points check
+                description: Checking water points
+                startDateTime: '2023-04-19T09:00:00.000Z'
+                endDateTime: '2023-04-19T17:00:00.000Z'
+              - title: Water flow test
+                description: Water flow test
+                startDateTime: '2023-04-20T09:00:00.000Z'
+                endDateTime: '2023-04-20T17:00:00.000Z'
   '/projects/{projectId}/planProposals/{planProposalId}/status':
     get:
       parameters:
       - schema:
           type: string
+        example: "1"
         name: projectId
         in: path
         required: true
       - schema:
           type: string
+        example: "1"
         name: planProposalId
         in: path
         required: true
@@ -216,12 +267,14 @@ paths:
       parameters:
       - schema:
           type: string
+        example: "1"
         name: projectId
         in: path
         required: true
       - schema:
           type: string
           format: date
+        example: "2023-04-18"
         in: query
         name: date
       summary: ''
