@@ -26,11 +26,7 @@ module.exports.registerProject = function registerProject(req, res) {
         return;
     }
 
-    let generatedProjId;
-    do {
-        generatedProjId = Math.floor(Math.random() * 100).toString();
-    } while (db.projectDb[generatedProjId] !== undefined);
-
+    const generatedProjId = db.getNextVal("project").toString();
     db.projectDb[generatedProjId] = {
         project: {
             ...req.body,

@@ -9,10 +9,7 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
         return;
     }
     
-    let generatedPlanProposalId;
-    do {
-        generatedPlanProposalId = Math.floor(Math.random() * 100).toString();
-    } while (db.projectDb[projId].planProposals[generatedPlanProposalId] !== undefined);
+    const generatedPlanProposalId = db.getNextVal("planProposal").toString();
 
     db.projectDb[projId].planProposals[generatedPlanProposalId] = {
         id: generatedPlanProposalId,
