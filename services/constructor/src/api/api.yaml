@@ -35,6 +35,49 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Rfq'
+            example:
+              example:
+              rfqNumber: RFQ1
+              customerContact:
+                name: householder
+                address: my address
+                phoneNumber: "03512345678"
+                emailAddress: myEmailAddress
+              renovationCompanyContact:
+                name: Acme Corp
+                address: Fairfield, New Jersey
+                phoneNumber: "39212345678"
+                emailAddress: acme-corp@acme.com
+              site:
+                address: my address
+                squareMeters: 127
+                constructionYear: "1999"
+              items:
+              - title: Walls demolition
+                description: Walls demolition
+              - title: Basement renovation
+                description: Basement renovation
+              - title: Walls construction
+                description: Walls construction
+              estimatedStartDate: '2023-04-18'
+  '/rfq/{rfqNumber}':
+    delete:
+      summary: ''
+      parameters:
+        - schema:
+            type: string
+          example: RFQ1
+          name: rfqNumber
+          in: path
+          required: true
+      tags:
+        - quotation
+      operationId: deleteRequestForQuotation
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
   /projects:
     post:
       summary: ''
@@ -61,12 +104,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Project'
+            example:
+              name: Renovation project 1
+              startDate: '2023-04-18'
+              rfqNumber: RFQ1
   '/projects/{projectId}/status':
     put:
       summary: ''
       parameters:
         - schema:
             type: string
+          example: "1"
           name: projectId
           in: path
           required: true
@@ -91,12 +139,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectStatus'
+            example: IN_PROGRESS
   '/projects/{projectId}/planProposals':
     post:
       summary: ''
       parameters:
         - schema:
             type: string
+          example: "1"
           name: projectId
           in: path
           required: true
@@ -125,18 +175,34 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PlanProposal'
+            example:
+              jobProposals:
+              - title: Walls demolition
+                description: Walls demolition
+                startDateTime: '2023-04-18T09:00:00.000Z'
+                endDateTime: '2023-04-18T17:00:00.000Z'
+              - title: Basement renovation
+                description: Basement renovation
+                startDateTime: '2023-04-19T09:00:00.000Z'
+                endDateTime: '2023-04-19T17:00:00.000Z'
+              - title: Walls construction
+                description: Walls construction
+                startDateTime: '2023-04-20T09:00:00.000Z'
+                endDateTime: '2023-04-20T17:00:00.000Z'
   '/projects/{projectId}/jobs':
     get:
       summary: ''
       parameters:
         - schema:
             type: string
+          example: "1"
           name: projectId
           in: path
           required: true
         - schema:
             type: string
             format: date
+          example: "2023-04-18"
           name: date
           in: query
       tags:
@@ -171,23 +237,6 @@ paths:
                 type: string
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
-  '/rfq/{rfqNumber}':
-    delete:
-      summary: ''
-      parameters:
-        - schema:
-            type: string
-          name: rfqNumber
-          in: path
-          required: true
-      tags:
-        - quotation
-      operationId: deleteRequestForQuotation
-      responses:
-        '200':
-          description: OK
         '500':
           description: Internal Server Error
 components:
