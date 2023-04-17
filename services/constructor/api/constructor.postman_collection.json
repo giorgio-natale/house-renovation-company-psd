@@ -1,0 +1,1067 @@
+{
+	"info": {
+		"_postman_id": "a6e6fc93-6025-49e5-ab02-c3e2e819b7fe",
+		"name": "constructor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17605779"
+	},
+	"item": [
+		{
+			"name": "quotation",
+			"item": [
+				{
+					"name": "register Request For Quotation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rfqNumber\": \"RFQ1\",\n  \"customerContact\": {\n    \"name\": \"householder\",\n    \"address\": \"my address\",\n    \"phoneNumber\": \"03512345678\",\n    \"emailAddress\": \"myEmailAddress\"\n  },\n  \"renovationCompanyContact\": {\n    \"name\": \"Acme Corp\",\n    \"address\": \"Fairfield, New Jersey\",\n    \"phoneNumber\": \"39212345678\",\n    \"emailAddress\": \"acme-corp@acme.com\"\n  },\n  \"site\": {\n    \"address\": \"my address\",\n    \"squareMeters\": 127,\n    \"constructionYear\": \"1999\"\n  },\n  \"items\": [\n    {\n      \"title\": \"Walls demolition\",\n      \"description\": \"Walls demolition\"\n    },\n    {\n      \"title\": \"Basement renovation\",\n      \"description\": \"Basement renovation\"\n    },\n    {\n      \"title\": \"Walls construction\",\n      \"description\": \"Walls construction\"\n    }\n  ],\n  \"estimatedStartDate\": \"2023-04-18\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rfq",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rfq"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"rfqNumber\": \"RFQ1\",\n  \"customerContact\": {\n    \"name\": \"householder\",\n    \"address\": \"my address\",\n    \"phoneNumber\": \"03512345678\",\n    \"emailAddress\": \"myEmailAddress\"\n  },\n  \"renovationCompanyContact\": {\n    \"name\": \"Acme Corp\",\n    \"address\": \"Fairfield, New Jersey\",\n    \"phoneNumber\": \"39212345678\",\n    \"emailAddress\": \"acme-corp@acme.com\"\n  },\n  \"site\": {\n    \"address\": \"my address\",\n    \"squareMeters\": 127,\n    \"constructionYear\": \"1999\"\n  },\n  \"items\": [\n    {\n      \"title\": \"Walls demolition\",\n      \"description\": \"Walls demolition\"\n    },\n    {\n      \"title\": \"Basement renovation\",\n      \"description\": \"Basement renovation\"\n    },\n    {\n      \"title\": \"Walls construction\",\n      \"description\": \"Walls construction\"\n    }\n  ],\n  \"estimatedStartDate\": \"2023-04-18\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/rfq",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"rfq"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": \"READY\",\n  \"pricedItems\": [\n    {\n      \"title\": \"id dolore aliquip\",\n      \"price\": -18592737.67248641,\n      \"description\": \"dolor dolor cupidatat conse\"\n    },\n    {\n      \"title\": \"ipsum\",\n      \"price\": -22363553.180993542,\n      \"description\": \"nulla sint\"\n    }\n  ]\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"rfqNumber\": \"RFQ1\",\n  \"customerContact\": {\n    \"name\": \"householder\",\n    \"address\": \"my address\",\n    \"phoneNumber\": \"03512345678\",\n    \"emailAddress\": \"myEmailAddress\"\n  },\n  \"renovationCompanyContact\": {\n    \"name\": \"Acme Corp\",\n    \"address\": \"Fairfield, New Jersey\",\n    \"phoneNumber\": \"39212345678\",\n    \"emailAddress\": \"acme-corp@acme.com\"\n  },\n  \"site\": {\n    \"address\": \"my address\",\n    \"squareMeters\": 127,\n    \"constructionYear\": \"1999\"\n  },\n  \"items\": [\n    {\n      \"title\": \"Walls demolition\",\n      \"description\": \"Walls demolition\"\n    },\n    {\n      \"title\": \"Basement renovation\",\n      \"description\": \"Basement renovation\"\n    },\n    {\n      \"title\": \"Walls construction\",\n      \"description\": \"Walls construction\"\n    }\n  ],\n  \"estimatedStartDate\": \"2023-04-18\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/rfq",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"rfq"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "anim sed aute ex"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"rfqNumber\": \"RFQ1\",\n  \"customerContact\": {\n    \"name\": \"householder\",\n    \"address\": \"my address\",\n    \"phoneNumber\": \"03512345678\",\n    \"emailAddress\": \"myEmailAddress\"\n  },\n  \"renovationCompanyContact\": {\n    \"name\": \"Acme Corp\",\n    \"address\": \"Fairfield, New Jersey\",\n    \"phoneNumber\": \"39212345678\",\n    \"emailAddress\": \"acme-corp@acme.com\"\n  },\n  \"site\": {\n    \"address\": \"my address\",\n    \"squareMeters\": 127,\n    \"constructionYear\": \"1999\"\n  },\n  \"items\": [\n    {\n      \"title\": \"Walls demolition\",\n      \"description\": \"Walls demolition\"\n    },\n    {\n      \"title\": \"Basement renovation\",\n      \"description\": \"Basement renovation\"\n    },\n    {\n      \"title\": \"Walls construction\",\n      \"description\": \"Walls construction\"\n    }\n  ],\n  \"estimatedStartDate\": \"2023-04-18\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/rfq",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"rfq"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "delete Request For Quotation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rfq/:rfqNumber",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rfq",
+								":rfqNumber"
+							],
+							"variable": [
+								{
+									"key": "rfqNumber",
+									"value": "RFQ1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/rfq/:rfqNumber",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"rfq",
+										":rfqNumber"
+									],
+									"variable": [
+										{
+											"key": "rfqNumber"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/rfq/:rfqNumber",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"rfq",
+										":rfqNumber"
+									],
+									"variable": [
+										{
+											"key": "rfqNumber"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "project",
+			"item": [
+				{
+					"name": "register Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Renovation project 1\",\n  \"startDate\": \"2023-04-18\",\n  \"rfqNumber\": \"RFQ1\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Renovation project 1\",\n  \"startDate\": \"2023-04-18\",\n  \"rfqNumber\": \"RFQ1\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"ut id occaecat ex\",\n  \"name\": \"exercitation\",\n  \"startDate\": \"1944-09-21\",\n  \"rfqNumber\": \"labore id reprehenderit\",\n  \"links\": {\n    \"projectStatus\": \"https://AVqEzpxevHDgrCaSOKCyEmqGwx.zaXNGs5rAr\",\n    \"planProposals\": \"http://QdHSgdDIpvYkpGNxGh.vnhU,t-G74J1lZ4Yz1n\"\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Renovation project 1\",\n  \"startDate\": \"2023-04-18\",\n  \"rfqNumber\": \"RFQ1\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "anim sed aute ex"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Renovation project 1\",\n  \"startDate\": \"2023-04-18\",\n  \"rfqNumber\": \"RFQ1\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Project Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"IN_PROGRESS\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"status"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"IN_PROGRESS\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"status"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"IN_PROGRESS\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"status"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "anim sed aute ex"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"IN_PROGRESS\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"status"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"IN_PROGRESS\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"status"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "register Plan Proposal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"jobProposals\": [\n    {\n      \"title\": \"Walls demolition\",\n      \"description\": \"Walls demolition\",\n      \"startDateTime\": \"2023-04-18T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-18T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Basement renovation\",\n      \"description\": \"Basement renovation\",\n      \"startDateTime\": \"2023-04-19T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-19T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Walls construction\",\n      \"description\": \"Walls construction\",\n      \"startDateTime\": \"2023-04-20T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-20T17:00:00.000Z\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"planProposals"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"jobProposals\": [\n    {\n      \"title\": \"Walls demolition\",\n      \"description\": \"Walls demolition\",\n      \"startDateTime\": \"2023-04-18T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-18T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Basement renovation\",\n      \"description\": \"Basement renovation\",\n      \"startDateTime\": \"2023-04-19T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-19T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Walls construction\",\n      \"description\": \"Walls construction\",\n      \"startDateTime\": \"2023-04-20T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-20T17:00:00.000Z\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"planProposals"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": \"ACCEPTED\",\n  \"links\": {\n    \"planProposals\": \"https://ocucyRIMNfRLs.ncfX5vKsP5cl\",\n    \"jobs\": \"https://xc.frnBzEsjiJweDO+8SoGM1KOdyo4jXt0HPc26r5v7fM-\"\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"jobProposals\": [\n    {\n      \"title\": \"Walls demolition\",\n      \"description\": \"Walls demolition\",\n      \"startDateTime\": \"2023-04-18T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-18T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Basement renovation\",\n      \"description\": \"Basement renovation\",\n      \"startDateTime\": \"2023-04-19T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-19T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Walls construction\",\n      \"description\": \"Walls construction\",\n      \"startDateTime\": \"2023-04-20T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-20T17:00:00.000Z\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"planProposals"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "anim sed aute ex"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"jobProposals\": [\n    {\n      \"title\": \"Walls demolition\",\n      \"description\": \"Walls demolition\",\n      \"startDateTime\": \"2023-04-18T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-18T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Basement renovation\",\n      \"description\": \"Basement renovation\",\n      \"startDateTime\": \"2023-04-19T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-19T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Walls construction\",\n      \"description\": \"Walls construction\",\n      \"startDateTime\": \"2023-04-20T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-20T17:00:00.000Z\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"planProposals"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"jobProposals\": [\n    {\n      \"title\": \"Walls demolition\",\n      \"description\": \"Walls demolition\",\n      \"startDateTime\": \"2023-04-18T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-18T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Basement renovation\",\n      \"description\": \"Basement renovation\",\n      \"startDateTime\": \"2023-04-19T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-19T17:00:00.000Z\"\n    },\n    {\n      \"title\": \"Walls construction\",\n      \"description\": \"Walls construction\",\n      \"startDateTime\": \"2023-04-20T09:00:00.000Z\",\n      \"endDateTime\": \"2023-04-20T17:00:00.000Z\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"planProposals"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Jobs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/jobs?date=2023-04-18",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2023-04-18"
+								}
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/jobs?date=2023-04-18",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"jobs"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "2023-04-18"
+										}
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"jobs\": [\n    {\n      \"id\": \"ut cillum sunt\",\n      \"title\": \"adipisicing in consectetur\",\n      \"description\": \"in\",\n      \"startDateTime\": \"1985-06-19T12:29:56.030Z\",\n      \"endDateTime\": \"2001-01-18T10:44:10.065Z\",\n      \"numberOfRequiredConstructors\": -55428301,\n      \"status\": \"IN_PROGRESS\"\n    },\n    {\n      \"id\": \"dolor tempor et\",\n      \"title\": \"labore adipisicing ex\",\n      \"description\": \"occaecat\",\n      \"startDateTime\": \"1994-04-10T19:09:46.739Z\",\n      \"endDateTime\": \"1982-04-03T17:01:39.274Z\",\n      \"numberOfRequiredConstructors\": -15653720,\n      \"status\": \"FAILED\"\n    }\n  ],\n  \"links\": {\n    \"projectStatus\": \"https://jjE.qrvbsj9rkhb0jfIDX9,aTxJJuLKLIrAKQ1Kdpu4vO0obb\"\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/jobs?date=2023-04-18",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"jobs"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "2023-04-18"
+										}
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "anim sed aute ex"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/jobs?date=2023-04-18",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"jobs"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "2023-04-18"
+										}
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/jobs?date=2023-04-18",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"jobs"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "2023-04-18"
+										}
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000"
+		}
+	]
+}
