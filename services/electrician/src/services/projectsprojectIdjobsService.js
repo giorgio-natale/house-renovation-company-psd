@@ -13,7 +13,7 @@ module.exports.getJobs = function getJobs(req, res) {
     sender.sendResponse(res, 200, {
         jobs: !date ? db.projectDb[projId].jobs : db.projectDb[projId].jobs.filter(i => new Date(i.startDateTime) <= new Date(date) && new Date(i.endDateTime) >= new Date (date)),
         links: {
-            projectStatus: `http://localhost:${req.socket.localPort}/projects/${projId}/status`
+            projectStatus: `${__baseUrl}/projects/${projId}/status`
         }
     });
 }

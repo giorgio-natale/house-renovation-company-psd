@@ -1,6 +1,5 @@
 const db = require('../utils/db.js');
 const sender =  require('../utils/sender.js');
-
 module.exports.registerRequestForQuotation = function registerRequestForQuotation(req, res) {
     const rfqNumber = req.body.rfqNumber;
     const rfq = req.body;
@@ -34,7 +33,7 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
     sender.sendResponse(res, 201, {
         rfqNumber: rfqNumber,
         links: {
-            quotation: `http://localhost:${req.socket.localPort}/rfq/${rfqNumber}/quotation`
+            quotation: `${__baseUrl}/rfq/${rfqNumber}/quotation`
         }
     });
 }

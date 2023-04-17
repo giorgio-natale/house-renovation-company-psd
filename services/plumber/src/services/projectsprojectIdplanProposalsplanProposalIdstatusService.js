@@ -19,7 +19,7 @@ module.exports.getPlanProposalStatus = function getPlanProposalStatus(req, res) 
             {
                 status: planProposalStatus,
                 links: {
-                    jobs: `http://localhost:${req.socket.localPort}/projects/${projId}/jobs`    
+                    jobs: `${__baseUrl}/projects/${projId}/jobs`    
                 }
             }
         );
@@ -27,7 +27,7 @@ module.exports.getPlanProposalStatus = function getPlanProposalStatus(req, res) 
         sender.sendResponse(res, 200, {
             status: planProposalStatus,
             links: {
-                planProposals: `http://localhost:${req.socket.localPort}/projects/${projId}/planProposals`
+                planProposals: `${__baseUrl}/projects/${projId}/planProposals`
             }
         });
 }

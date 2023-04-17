@@ -3,17 +3,19 @@ const sender =  require('../utils/sender.js');
 
 module.exports.getJobs = function getJobs(req, res) {
     const projId = req.params.projectId;
-    const date = req.query.date;
+    const date = new Date(req.query.date);
+    const nextDate = new Date(date.getTime() + (24 * 60 * 60 * 1000));
 
     if(db.projectDb[projId] === undefined){
         sender.sendResponse(res, 404);
         return;        
     }
+
     
     sender.sendResponse(res, 200, {
-        jobs: !date ? db.projectDb[projId].jobs : db.projectDb[projId].jobs.filter(i => new Date(i.startDateTime) <= new Date(date) && new Date(i.endDateTime) >= new Date (date)),
+        jobs: !date ? db.projectDb[projId].jobs : db.projectDb[projId].jobs.filter(i => new Date(i.startDateTime).getTime() <= nextDate.getTime() && new Date(i.endDateTime).getTime() >= date.getTime()),
         links: {
-            projectStatus: `http://localhost:${req.socket.localPort}/projects/${projId}/status`
+            projectStatus: `${__baseUrl}/projects/${projId}/status`
         }
     });
 }

@@ -2,8 +2,9 @@ const http = require('http');
 const express = require("express");
 const { initialize } = require('@oas-tools/core');
 
+const serverPort = process.env.npm_config_SERVER_PORT ?? 4000;
+global.__baseUrl = "http://localhost:" + serverPort;
 
-const serverPort = 3000;
 const app = express();
 app.use(express.json({limit: '50mb'}));
 

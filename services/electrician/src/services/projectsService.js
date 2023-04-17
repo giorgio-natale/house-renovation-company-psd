@@ -43,8 +43,8 @@ module.exports.registerProject = function registerProject(req, res) {
         ...req.body,
         id: generatedProjId,
         links: {
-            projectStatus: `http://localhost:${req.socket.localPort}/projects/${generatedProjId}/status`,
-            planProposals: `http://localhost:${req.socket.localPort}/projects/${generatedProjId}/planProposals`
+            projectStatus: `${__baseUrl}/projects/${generatedProjId}/status`,
+            planProposals: `${__baseUrl}/projects/${generatedProjId}/planProposals`
         }
     });
 }

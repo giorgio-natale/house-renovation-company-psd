@@ -49,7 +49,7 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
                 {
                     status: planProposalStatus,
                     links: {
-                        jobs: `http://localhost:${currentPort}/projects/${projId}/jobs`    
+                        jobs: `${__baseUrl}/projects/${projId}/jobs`    
                     }
                 }
         }else{
@@ -57,7 +57,7 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
                 {
                     status: planProposalStatus,
                     links: {
-                        planProposals: `http://localhost:${currentPort}/projects/${projId}/planProposals`
+                        planProposals: `${__baseUrl}/projects/${projId}/planProposals`
                     }
                 }
         }

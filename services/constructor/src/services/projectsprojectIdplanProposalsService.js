@@ -9,10 +9,7 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
         return;
     }
     
-    let generatedPlanProposalId;
-    do {
-        generatedPlanProposalId = Math.floor(Math.random() * 100).toString();
-    } while (db.projectDb[projId].planProposals[generatedPlanProposalId] !== undefined);
+    const generatedPlanProposalId = db.getNextVal("planProposal").toString();
 
     db.projectDb[projId].planProposals[generatedPlanProposalId] = {
         id: generatedPlanProposalId,
@@ -47,7 +44,7 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
             {
                 status: planProposalStatus,
                 links: {
-                    jobs: `http://localhost:${req.socket.localPort}/projects/${projId}/jobs`    
+                    jobs: `${__baseUrl}/projects/${projId}/jobs`    
                 }
             }
         );
@@ -55,7 +52,7 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
         sender.sendResponse(res, 201, {
             status: planProposalStatus,
             links: {
-                planProposals: `http://localhost:${req.socket.localPort}/projects/${projId}/planProposals`
+                planProposals: `${__baseUrl}/projects/${projId}/planProposals`
             }
         });
 }
