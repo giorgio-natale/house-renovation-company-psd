@@ -36,7 +36,6 @@ paths:
             schema:
               $ref: '#/components/schemas/Rfq'
             example:
-              example:
               rfqNumber: RFQ1
               customerContact:
                 name: householder
@@ -139,7 +138,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectStatus'
-            example: IN_PROGRESS
+            example: 
+              status: IN_PROGRESS
   '/projects/{projectId}/planProposals':
     post:
       summary: ''

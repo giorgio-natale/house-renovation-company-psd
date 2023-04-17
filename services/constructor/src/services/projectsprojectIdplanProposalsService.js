@@ -21,7 +21,7 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
         
         db.projectDb[projId].jobs = req.body.jobProposals.map((i, index) => ({
             ...i,
-            id: index+1,
+            id: (index+1).toString(),
             numberOfRequiredConstructors: Math.floor(Math.random() * 4 + 1),
             status: "NOT_STARTED"
         }));

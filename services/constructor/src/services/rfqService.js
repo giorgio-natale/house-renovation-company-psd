@@ -12,7 +12,10 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
         return;
     }
 
-    db.quotationDb[rfqNumber].rfq = req.body;
+    db.quotationDb[rfqNumber] = {
+        rfq: req.body,
+        quotation: null
+    }
 
     if(Math.random() >= 0.2){
         const pricedItems = rfq["items"].map(i => ({...i, price: Math.floor(Math.random() * 100)}))
