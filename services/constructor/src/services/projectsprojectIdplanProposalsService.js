@@ -37,7 +37,7 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
         db.projectDb[projId].planProposals[generatedPlanProposalId].status = "DECLINED";
     }
 
-    let planProposalStatus = db.projectDb[projId].planProposals[planProposalId].status;
+    let planProposalStatus = db.projectDb[projId].planProposals[generatedPlanProposalId].status;
 
     if(planProposalStatus === "ACCEPTED")
         sender.sendResponse(res, 201,
