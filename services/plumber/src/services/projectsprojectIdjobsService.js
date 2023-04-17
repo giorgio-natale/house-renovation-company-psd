@@ -6,14 +6,20 @@ module.exports.getJobs = function getJobs(req, res) {
     const date = new Date(req.query.date);
     const nextDate = new Date(date.getTime() + (24 * 60 * 60 * 1000));
 
-    if(db.projectDb[projId] === undefined){
+    if(db.projectDb[projId] === undefined) {
         sender.sendResponse(res, 404);
         return;        
     }
 
+    const jobs = !date ? db.projectDb[projId].jobs : db.projectDb[projId].jobs.filter(i => new Date(i.startDateTime).getTime() <= nextDate.getTime() && new Date(i.endDateTime).getTime() >= date.getTime());
+
+    if(jobs.length === 0) {
+        sender.sendResponse(res, 404);
+        return;
+    }
     
     sender.sendResponse(res, 200, {
-        jobs: !date ? db.projectDb[projId].jobs : db.projectDb[projId].jobs.filter(i => new Date(i.startDateTime).getTime() <= nextDate.getTime() && new Date(i.endDateTime).getTime() >= date.getTime()),
+        jobs: jobs,
         links: {
             projectStatus: `${__baseUrl}/projects/${projId}/status`
         }
