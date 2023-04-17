@@ -41,30 +41,32 @@ paths:
                 - rfq
                 - callbackUrl
             example:
-              rfqNumber: RFQ1
-              customerContact:
-                name: householder
-                address: my address
-                phoneNumber: "03512345678"
-                emailAddress: myEmailAddress
-              renovationCompanyContact:
-                name: Acme Corp
-                address: Fairfield, New Jersey
-                phoneNumber: "39212345678"
-                emailAddress: acme-corp@acme.com
-              site:
-                address: my address
-                squareMeters: 127
-                constructionYear: "1999"
-              items:
-              - title: Electric cables installation
-                description: Installation of cables
-              - title: Light points check
-                description: Checking Light points
-              - title: Electric flow test
-                description: Electric flow test
-              estimatedStartDate: '2023-04-18'
-              lightPoints: 15
+              rfq:
+                rfqNumber: RFQ1
+                customerContact:
+                  name: householder
+                  address: my address
+                  phoneNumber: "03512345678"
+                  emailAddress: myEmailAddress
+                renovationCompanyContact:
+                  name: Acme Corp
+                  address: Fairfield, New Jersey
+                  phoneNumber: "39212345678"
+                  emailAddress: acme-corp@acme.com
+                site:
+                  address: my address
+                  squareMeters: 127
+                  constructionYear: "1999"
+                items:
+                - title: Electric cables installation
+                  description: Installation of cables
+                - title: Light points check
+                  description: Checking Light points
+                - title: Electric flow test
+                  description: Electric flow test
+                estimatedStartDate: '2023-04-18'
+                lightPoints: 15
+              callbackUrl: https://b2702088-a7b5-4ff7-acd4-dcb94423bd96.mock.pstmn.io/callback1
       callbacks:
         rfqEvaluated:
           '{$request.body#/callbackUrl}':
@@ -200,25 +202,30 @@ paths:
             schema:
               type: object
               properties:
+                planProposal:
+                  $ref: '#/components/schemas/PlanProposal'
                 callbackUrl:
                   type: string
                   format: uri
-                planProposal:
-                  $ref: '#/components/schemas/PlanProposal'
+              required:
+                - planProposal
+                - callbackUrl
             example:
-              jobProposals:
-              - title: Electric cables installation
-                description: Installation of cables
-                startDateTime: '2023-04-18T09:00:00.000Z'
-                endDateTime: '2023-04-18T17:00:00.000Z'
-              - title: Light points check
-                description: Checking Light points
-                startDateTime: '2023-04-19T09:00:00.000Z'
-                endDateTime: '2023-04-19T17:00:00.000Z'
-              - title: Electric flow test
-                description: Electric flow test
-                startDateTime: '2023-04-20T09:00:00.000Z'
-                endDateTime: '2023-04-20T17:00:00.000Z'
+              planProposal:
+                jobProposals:
+                - title: Electric cables installation
+                  description: Installation of cables
+                  startDateTime: '2023-04-18T09:00:00.000Z'
+                  endDateTime: '2023-04-18T17:00:00.000Z'
+                - title: Light points check
+                  description: Checking Light points
+                  startDateTime: '2023-04-19T09:00:00.000Z'
+                  endDateTime: '2023-04-19T17:00:00.000Z'
+                - title: Electric flow test
+                  description: Electric flow test
+                  startDateTime: '2023-04-20T09:00:00.000Z'
+                  endDateTime: '2023-04-20T17:00:00.000Z'
+              callbackUrl: https://b2702088-a7b5-4ff7-acd4-dcb94423bd96.mock.pstmn.io/callback2
       callbacks:
         planProposalEvaluated:
           '{$request.body#/callbackUrl}':
