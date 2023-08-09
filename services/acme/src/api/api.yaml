@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: api
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'http://localhost:9000'
+tags:
+  - name: quotation
+paths:
+  /quotation:
+    put:
+      tags:
+        - quotation
+      operationId: updateQuotation
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+components:
+  schemas:
+    Quotation:
+      title: Quotation
+      type: object
+      properties:
+        pricedItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuotationPricedItem'
+        status:
+          type: string
+          enum:
+            - READY
+            - CANCELLED
+      required:
+        - status
+
+    QuotationPricedItem:
+      title: QuotationPricedItem
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+      required:
+        - title
+        - price
