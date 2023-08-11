@@ -8,8 +8,15 @@ servers:
 tags:
   - name: quotation
 paths:
-  /quotation:
+  '/rfq/{rfqNumber}/quotation':
     put:
+      parameters:
+        - schema:
+            type: string
+          example: RFQ1
+          name: rfqNumber
+          in: path
+          required: true
       tags:
         - quotation
       operationId: updateQuotation

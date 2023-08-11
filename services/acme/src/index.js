@@ -1,4 +1,3 @@
-
 import http from "http";
 import express, { response } from "express";
 import { initialize } from "@oas-tools/core";
@@ -6,7 +5,6 @@ import axios from "axios";
 import { Client, logger, Variables } from 'camunda-external-task-client-js';
 
 import { thirdParties, getNextVal, electriciansQuotationsStatus } from "./shared/shared.js";
-
 
 const serverPort = 9000;
 const app = express();
@@ -162,7 +160,7 @@ initialize(app, config).then(() => {
                     "estimatedStartDate": "2023-04-18",
                     "lightPoints": 15
                 },
-                "callbackUrl": "https://localhost:9000/rfq/" + rfqNumber + "/quotation"
+                "callbackUrl": "http://localhost:9000/rfq/" + rfqNumber + "/quotation"
             }
 
 
@@ -178,7 +176,7 @@ initialize(app, config).then(() => {
             
         });
 
-        processQuotationsStatus.push({...processContext, rfqs: rfqs});
+        electriciansQuotationsStatus.push({...processContext, rfqs: rfqs});
     });
 
     camundaClient.subscribe('constructors-quotation-exchange', async function({ task, taskService }) {
@@ -187,8 +185,5 @@ initialize(app, config).then(() => {
             await taskService.complete(task);
         }, 100);
     });
-
-
-
 
 });
