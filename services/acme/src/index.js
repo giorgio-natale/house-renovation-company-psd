@@ -5,7 +5,7 @@ import { initialize } from "@oas-tools/core";
 import axios from "axios";
 import { Client, logger, Variables } from 'camunda-external-task-client-js';
 
-import { thirdParties, getNextVal } from "./shared/shared.js";
+import { thirdParties, getNextVal, electriciansQuotationsStatus } from "./shared/shared.js";
 
 
 const serverPort = 9000;
@@ -119,8 +119,66 @@ initialize(app, config).then(() => {
     camundaClient.subscribe('electricians-quotation-exchange', async function({ task, taskService }) {
         console.log("Sto contattando gli electricians ( task id '" + task.id + "')");
 
-        //let processQuotationsStatus = {task: task, taskService:taskService, rfqs: {}};
-        await taskService.complete(task);
+        await taskService.extendLock(task, 60 * 60 * 1000);
+
+        let processContext = {task: task, taskService: taskService, rfqs: {}, weekTimeoutExpired: false}
+
+        setTimeout(() => {
+            processContext.weekTimeoutExpired = true;
+        }, 3000);
+
+        let rfqs = {};
+
+        let activities = JSON.parse(task.variables.get('activities'));
+        let items = activities.electrician.items;
+
+        thirdParties["electricians"].forEach(electricianId => {
+            let rfqIdNum = getNextVal();
+            let rfqNumber = "RFQ" + rfqIdNum;
+
+            rfqs[rfqNumber] = {electricianId: electricianId, response: null};
+
+            let postRequest = {
+                "rfq": {
+                    "rfqNumber": rfqNumber,
+                    "customerContact": {
+                        "name": "householder",
+                        "address": "my address",
+                        "phoneNumber": "03512345678",
+                        "emailAddress": "myEmailAddress"
+                    },
+                    "renovationCompanyContact": {
+                        "name": "Acme Corp",
+                        "address": "Fairfield, New Jersey",
+                        "phoneNumber": "39212345678",
+                        "emailAddress": "acme-corp@acme.com"
+                    },
+                    "site": {
+                        "address": "my address",
+                        "squareMeters": 127,
+                        "constructionYear": "1999"
+                    },
+                    "items": items,
+                    "estimatedStartDate": "2023-04-18",
+                    "lightPoints": 15
+                },
+                "callbackUrl": "https://localhost:9000/rfq/" + rfqNumber + "/quotation"
+            }
+
+
+            axios({
+                method: "post",
+                url: "http://localhost:"+ electricianId + "/rfq",
+                data: postRequest
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to post an rfq to electrician #" + electricianId);
+                console.log(err);
+            });
+            
+        });
+
+        processQuotationsStatus.push({...processContext, rfqs: rfqs});
     });
 
     camundaClient.subscribe('constructors-quotation-exchange', async function({ task, taskService }) {
