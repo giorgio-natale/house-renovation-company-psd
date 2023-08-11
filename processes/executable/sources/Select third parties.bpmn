@@ -47,7 +47,7 @@
       <bpmn:script></bpmn:script>
     </bpmn:scriptTask>
     <bpmn:exclusiveGateway id="Gateway_18wqlaz" name="Found all needed winners?">
-      <bpmn:incoming>Flow_16yknkc</bpmn:incoming>
+      <bpmn:incoming>Flow_15k8p97</bpmn:incoming>
       <bpmn:outgoing>Flow_1msjomh</bpmn:outgoing>
       <bpmn:outgoing>Flow_0oeeh0r</bpmn:outgoing>
     </bpmn:exclusiveGateway>
@@ -71,7 +71,7 @@
     <bpmn:sequenceFlow id="Flow_15jzjkc" sourceRef="Activity_0aglt9h" targetRef="Gateway_1xy1qpd" />
     <bpmn:sequenceFlow id="Flow_0lbzil6" sourceRef="Activity_1ps459g" targetRef="Gateway_1xy1qpd" />
     <bpmn:sequenceFlow id="Flow_07c5rie" sourceRef="Activity_18is88i" targetRef="Gateway_1xy1qpd" />
-    <bpmn:sequenceFlow id="Flow_16yknkc" sourceRef="Gateway_1xy1qpd" targetRef="Gateway_18wqlaz" />
+    <bpmn:sequenceFlow id="Flow_16yknkc" sourceRef="Gateway_1xy1qpd" targetRef="Event_0pqdog4" />
     <bpmn:sequenceFlow id="Flow_1msjomh" name="Yes" sourceRef="Gateway_18wqlaz" targetRef="Event_1c1u921">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">true</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -84,6 +84,14 @@
       <bpmn:outgoing>Flow_103n6oc</bpmn:outgoing>
       <bpmn:script>execution.setVariable('activities','{"plumber":{"isNeeded":true,"items":[{"title":"A1","description":"a1"},{"title":"A2","description":"a2"},{"title":"A3","description":"a3"}]},"electrician":{"isNeeded":false,"items":[]},"constructor":{"isNeeded":true,"items":[{"title":"B1","description":"b1"}]}}');</bpmn:script>
     </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_15k8p97" sourceRef="Event_0pqdog4" targetRef="Gateway_18wqlaz" />
+    <bpmn:intermediateCatchEvent id="Event_0pqdog4">
+      <bpmn:incoming>Flow_16yknkc</bpmn:incoming>
+      <bpmn:outgoing>Flow_15k8p97</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0yzg5k2">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT60S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
   <bpmn:escalation id="Escalation_27nl3tk" name="Escalation_27nl3tk" escalationCode="Third parties deemed unavailable" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -116,9 +124,6 @@
       <bpmndi:BPMNShape id="BPMNShape_0ewbq7s" bpmnElement="Gateway_1xy1qpd">
         <dc:Bounds x="1005" y="230" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1c1u921_di" bpmnElement="Event_1c1u921">
-        <dc:Bounds x="1189" y="237" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0kas613_di" bpmnElement="Activity_0aglt9h">
         <dc:Bounds x="870" y="55" width="100" height="80" />
         <bpmndi:BPMNLabel />
@@ -132,16 +137,22 @@
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_18wqlaz_di" bpmnElement="Gateway_18wqlaz" isMarkerVisible="true">
-        <dc:Bounds x="1089" y="230" width="50" height="50" />
+        <dc:Bounds x="1212" y="230" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1071" y="200" width="86" height="27" />
+          <dc:Bounds x="1194" y="200" width="86" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1grqien_di" bpmnElement="Event_0j3yf42">
-        <dc:Bounds x="1096" y="368" width="36" height="36" />
+        <dc:Bounds x="1219" y="368" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1083" y="411" width="62" height="40" />
+          <dc:Bounds x="1206" y="411" width="62" height="40" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1c1u921_di" bpmnElement="Event_1c1u921">
+        <dc:Bounds x="1312" y="237" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0y4ijwy_di" bpmnElement="Event_0pqdog4">
+        <dc:Bounds x="1112" y="237" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0qxsyw4_di" bpmnElement="Flow_0qxsyw4">
         <di:waypoint x="188" y="255" />
@@ -202,21 +213,25 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_16yknkc_di" bpmnElement="Flow_16yknkc">
         <di:waypoint x="1055" y="255" />
-        <di:waypoint x="1089" y="255" />
+        <di:waypoint x="1112" y="255" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1msjomh_di" bpmnElement="Flow_1msjomh">
-        <di:waypoint x="1139" y="255" />
-        <di:waypoint x="1189" y="255" />
+        <di:waypoint x="1262" y="255" />
+        <di:waypoint x="1312" y="255" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1155" y="237" width="18" height="14" />
+          <dc:Bounds x="1278" y="237" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0oeeh0r_di" bpmnElement="Flow_0oeeh0r">
-        <di:waypoint x="1114" y="280" />
-        <di:waypoint x="1114" y="368" />
+        <di:waypoint x="1237" y="280" />
+        <di:waypoint x="1237" y="368" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1122" y="321" width="15" height="14" />
+          <dc:Bounds x="1245" y="321" width="15" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15k8p97_di" bpmnElement="Flow_15k8p97">
+        <di:waypoint x="1148" y="255" />
+        <di:waypoint x="1212" y="255" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

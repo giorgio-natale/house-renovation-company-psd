@@ -1,11 +1,11 @@
 
 import http from "http";
-import express from "express";
+import express, { response } from "express";
 import { initialize } from "@oas-tools/core";
 import axios from "axios";
-import { Client, logger } from 'camunda-external-task-client-js';
+import { Client, logger, Variables } from 'camunda-external-task-client-js';
 
-import { thirdParties, plumbersQuotationsStatus, getNextVal } from "./shared/shared.js";
+import { thirdParties, getNextVal } from "./shared/shared.js";
 
 
 const serverPort = 9000;
@@ -30,6 +30,10 @@ initialize(app, config).then(() => {
 
     camundaClient.subscribe('plumbers-quotation-exchange', async function({ task, taskService }) {
         await taskService.extendLock(task, 60 * 60 * 1000);
+        let weekTimeoutExpired = false;
+        setTimeout(() => {
+            weekTimeoutExpired = true;
+        }, 3000);
         console.log("Sto contattando i plumbers ( task id '" + task.id + "')");
         let rfqs = {};
 
@@ -39,7 +43,7 @@ initialize(app, config).then(() => {
         thirdParties["plumbers"].forEach(plumberId => {
             let rfqIdNum = getNextVal();
             let rfqNumber = "RFQ" + rfqIdNum;
-            rfqs[rfqNumber] = {plumberId:plumberId};
+            rfqs[rfqNumber] = {plumberId:plumberId, response: null};
 
             let postRequest = {
                 "rfqNumber": rfqNumber,
@@ -77,11 +81,37 @@ initialize(app, config).then(() => {
             });
             
         });
-        task.variables.set("plumbersRfqs", JSON.stringify(rfqs));
         
 
-        setTimeout(() => {
-            
+        let pollingTimer = setInterval(async () => {
+            if(!weekTimeoutExpired){
+                Object.entries(rfqs).forEach(([rfqNumber, value])=>{
+                    if (value.response === null){
+                        axios({
+                            method: "get",
+                            url: "http://localhost:"+ value.plumberId + "/rfq/" + rfqNumber + "/quotation",
+                        }).then((res) => {
+                            if(res.status != 202){
+                                value.response = res.data;
+                            }
+                        }).catch((err) => {
+                            console.log("Failed to get an rfq to plumber #" + plumberId);
+                            console.log(err);
+                        });
+                    }
+                });
+                if(!Object.entries(rfqs).some(([rfqNumber, value]) => {return value.response === null})){
+                    let processVariables = new Variables().set("plumbersQuotations", JSON.stringify(rfqs));
+                    await taskService.complete(task, processVariables);
+                    clearInterval(pollingTimer);
+                }
+            }else{
+                console.log("A week has expired!");
+                let processVariables = new Variables().set("plumbersQuotations", JSON.stringify(rfqs));
+                await taskService.complete(task, processVariables);
+                clearInterval(pollingTimer);
+            }
+
         }, 1000);
 
     });
