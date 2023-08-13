@@ -14,7 +14,7 @@ const config = {}
 
 
 initialize(app, config).then(() => {
-    http.createServer(app).listen(serverPort, () => {
+    config.server = http.createServer(app).listen(serverPort, () => {
     console.log("\nApp running at http://localhost:" + serverPort);
     console.log("________________________________________________________________");
     if (!config?.middleware?.swagger?.disable) {
@@ -22,4 +22,24 @@ initialize(app, config).then(() => {
         console.log("________________________________________________________________");
     }
     });
+
+    app.get('/health', (req, res) => {
+        res
+        .set({ 'content-type': 'application/json; charset=utf-8' })
+        .status(200)
+        .send();
+    })
+    app.delete('/health', (req, res) => {
+        console.log("Request for closing server");
+        setTimeout(() => {
+            console.log("[ACTUALLY CLOSING...]]")
+            config.server.close()
+            console.log("[CLOSED...]]")
+            process.exit(0);
+        }, 1000);
+        res
+        .set({ 'content-type': 'application/json; charset=utf-8' })
+        .status(200)
+        .send();
+    })
 });
