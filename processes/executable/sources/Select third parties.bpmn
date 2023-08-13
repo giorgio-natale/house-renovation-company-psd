@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1v0f5rj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1v0f5rj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:process id="Process_0w8suqf" name="Select third parties" isExecutable="true" camunda:historyTimeToLive="100">
     <bpmn:startEvent id="Event_0tslh8n">
       <bpmn:outgoing>Flow_0qxsyw4</bpmn:outgoing>
@@ -29,38 +29,51 @@
       <bpmn:outgoing>Flow_16yknkc</bpmn:outgoing>
     </bpmn:inclusiveGateway>
     <bpmn:endEvent id="Event_1c1u921">
-      <bpmn:incoming>Flow_1msjomh</bpmn:incoming>
+      <bpmn:incoming>Flow_0vaxuvx</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:scriptTask id="Activity_0aglt9h" name="Try to select winner" scriptFormat="javascript">
       <bpmn:incoming>Flow_0rlsijt</bpmn:incoming>
       <bpmn:outgoing>Flow_15jzjkc</bpmn:outgoing>
-      <bpmn:script>let plumbersQuotations = JSON.parse(execution.getVariable("plumbersQuotations"));
-let winnerId = null;
-Object.entries(plumbersQuotations).forEach(([key, val])=&gt;{
-    if(val.response !== null &amp;&amp; val.response.status === "READY"){
-        winnerId = key;
-    }
+      <bpmn:script>let receivedQuotations = JSON.parse(execution.getVariable("plumbersQuotations"));
+
+let validQuotations = Object.entries(receivedQuotations).filter(([rfqNumber, value]) =&gt; value.response !== null &amp;&amp; value.response.status == "READY").map(arr =&gt; {
+    let price = arr[1].response.pricedItems.map(item =&gt; item.price).reduce((acc, val) =&gt; acc + val);
+    return { rfqNumber: arr[0], plumberId: arr[1].plumberId, price: price }
 });
 
-execution.setVariable("plumberWinner", JSON.stringify(winnerId));</bpmn:script>
+let winner = validQuotations.length &gt; 0 ? validQuotations.reduce((acc, val) =&gt; (acc.price &lt; val.price) ? acc : val): null;
+
+execution.setVariable("winnerPlumber", JSON.stringify(winner));
+</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_1ps459g" name="Try to select winner" scriptFormat="javascript">
       <bpmn:incoming>Flow_01zhzxg</bpmn:incoming>
       <bpmn:outgoing>Flow_0lbzil6</bpmn:outgoing>
-      <bpmn:script></bpmn:script>
+      <bpmn:script>let receivedQuotations = JSON.parse(execution.getVariable("electriciansQuotations"));
+
+let validQuotations = Object.entries(receivedQuotations).filter(([rfqNumber, value]) =&gt; value.response !== null &amp;&amp; value.response.status == "READY").map(arr =&gt; {
+    let price = arr[1].response.pricedItems.map(item =&gt; item.price).reduce((acc, val) =&gt; acc + val);
+    return { rfqNumber: arr[0], electricianId: arr[1].electricianId, price: price }
+});
+
+let winner = validQuotations.length &gt; 0 ? validQuotations.reduce((acc, val) =&gt; (acc.price &lt; val.price) ? acc : val): null;
+
+execution.setVariable("winnerElectrician", JSON.stringify(winner));
+</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_18is88i" name="Try to select winner" scriptFormat="javascript">
       <bpmn:incoming>Flow_1esv0f8</bpmn:incoming>
       <bpmn:outgoing>Flow_07c5rie</bpmn:outgoing>
-      <bpmn:script>let constructorsQuotations = JSON.parse(execution.getVariable("constructorsQuotations"));
-let winnerId = null;
-Object.entries(constructorsQuotations).forEach(([key, val])=&gt;{
-    if(val.response !== null &amp;&amp; val.response.status === "READY"){
-        winnerId = key;
-    }
+      <bpmn:script>let receivedQuotations = JSON.parse(execution.getVariable("constructorsQuotations"));
+
+let validQuotations = Object.entries(receivedQuotations).filter(([rfqNumber, value]) =&gt; value.response !== null &amp;&amp; value.response.status == "READY").map(arr =&gt; {
+    let price = arr[1].response.pricedItems.map(item =&gt; item.price).reduce((acc, val) =&gt; acc + val);
+    return { rfqNumber: arr[0], constructorId: arr[1].constructorId, price: price }
 });
 
-execution.setVariable("constructorsWinner", JSON.stringify(winnerId));</bpmn:script>
+let winner = validQuotations.length &gt; 0 ? validQuotations.reduce((acc, val) =&gt; (acc.price &lt; val.price) ? acc : val): null;
+
+execution.setVariable("winnerConstructor", JSON.stringify(winner));</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:exclusiveGateway id="Gateway_18wqlaz" name="Found all needed winners?">
       <bpmn:incoming>Flow_15k8p97</bpmn:incoming>
@@ -68,7 +81,7 @@ execution.setVariable("constructorsWinner", JSON.stringify(winnerId));</bpmn:scr
       <bpmn:outgoing>Flow_0oeeh0r</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:endEvent id="Event_0j3yf42" name="Third parties deemed unavailable">
-      <bpmn:incoming>Flow_0oeeh0r</bpmn:incoming>
+      <bpmn:incoming>Flow_1gcgl1s</bpmn:incoming>
       <bpmn:escalationEventDefinition id="EscalationEventDefinition_0p24vfu" escalationRef="Escalation_27nl3tk" />
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0qxsyw4" sourceRef="Event_0tslh8n" targetRef="Activity_04cy1jm" />
@@ -88,26 +101,46 @@ execution.setVariable("constructorsWinner", JSON.stringify(winnerId));</bpmn:scr
     <bpmn:sequenceFlow id="Flow_0lbzil6" sourceRef="Activity_1ps459g" targetRef="Gateway_1xy1qpd" />
     <bpmn:sequenceFlow id="Flow_07c5rie" sourceRef="Activity_18is88i" targetRef="Gateway_1xy1qpd" />
     <bpmn:sequenceFlow id="Flow_16yknkc" sourceRef="Gateway_1xy1qpd" targetRef="Event_0pqdog4" />
-    <bpmn:sequenceFlow id="Flow_1msjomh" name="Yes" sourceRef="Gateway_18wqlaz" targetRef="Event_1c1u921">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">true</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_1msjomh" name="Yes" sourceRef="Gateway_18wqlaz" targetRef="Event_1tpbc7g">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">(!JSON.parse(execution.getVariable("activities")).plumber.isNeeded || JSON.parse(execution.getVariable("winnerPlumber")) !== null) &amp;&amp; 
+(!JSON.parse(execution.getVariable("activities")).electrician.isNeeded || JSON.parse(execution.getVariable("winnerElectrician")) !== null) &amp;&amp; 
+(!JSON.parse(execution.getVariable("activities")).constructor.isNeeded || JSON.parse(execution.getVariable("winnerConstructor")) !== null)</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0oeeh0r" name="No" sourceRef="Gateway_18wqlaz" targetRef="Event_0j3yf42">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">false</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_0oeeh0r" name="No" sourceRef="Gateway_18wqlaz" targetRef="Event_00oi2zk">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">(!(!JSON.parse(execution.getVariable("activities")).plumber.isNeeded || JSON.parse(execution.getVariable("winnerPlumber")) !== null) &amp;&amp; 
+(!JSON.parse(execution.getVariable("activities")).electrician.isNeeded || JSON.parse(execution.getVariable("winnerElectrician")) !== null) &amp;&amp; 
+(!JSON.parse(execution.getVariable("activities")).constructor.isNeeded || JSON.parse(execution.getVariable("winnerConstructor")) !== null))</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_103n6oc" sourceRef="Activity_04cy1jm" targetRef="Gateway_1e0wapp" />
     <bpmn:scriptTask id="Activity_04cy1jm" name="Define variables [DELETE THIS]" scriptFormat="javascript">
       <bpmn:incoming>Flow_0qxsyw4</bpmn:incoming>
       <bpmn:outgoing>Flow_103n6oc</bpmn:outgoing>
-      <bpmn:script>execution.setVariable('activities','{"plumber":{"isNeeded":false,"items":[{"title":"A1","description":"a1"},{"title":"A2","description":"a2"},{"title":"A3","description":"a3"}]},"electrician":{"isNeeded":false,"items":[]},"constructor":{"isNeeded":true,"items":[{"title":"A1","description":"a1"},{"title":"A2","description":"a2"},{"title":"A3","description":"a3"}]}}');</bpmn:script>
+      <bpmn:script>execution.setVariable('activities','{"plumber":{"isNeeded":true,"items":[{"title":"A1","description":"a1"},{"title":"A2","description":"a2"},{"title":"A3","description":"a3"}]},"electrician":{"isNeeded":false,"items":[]},"constructor":{"isNeeded":false,"items":[{"title":"A1","description":"a1"},{"title":"A2","description":"a2"},{"title":"A3","description":"a3"}]}}');</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="Flow_15k8p97" sourceRef="Event_0pqdog4" targetRef="Gateway_18wqlaz" />
     <bpmn:intermediateCatchEvent id="Event_0pqdog4">
       <bpmn:incoming>Flow_16yknkc</bpmn:incoming>
       <bpmn:outgoing>Flow_15k8p97</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_0yzg5k2">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_00oi2zk">
+      <bpmn:incoming>Flow_0oeeh0r</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gcgl1s</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_03ecgyx">
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT60S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1gcgl1s" sourceRef="Event_00oi2zk" targetRef="Event_0j3yf42" />
+    <bpmn:intermediateCatchEvent id="Event_1tpbc7g">
+      <bpmn:incoming>Flow_1msjomh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vaxuvx</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0vehult">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT60S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_0vaxuvx" sourceRef="Event_1tpbc7g" targetRef="Event_1c1u921" />
   </bpmn:process>
   <bpmn:escalation id="Escalation_27nl3tk" name="Escalation_27nl3tk" escalationCode="Third parties deemed unavailable" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -136,9 +169,6 @@ execution.setVariable("constructorsWinner", JSON.stringify(winnerId));</bpmn:scr
       <bpmndi:BPMNShape id="BPMNShape_0ewbq7s" bpmnElement="Gateway_1xy1qpd">
         <dc:Bounds x="1005" y="230" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1c1u921_di" bpmnElement="Event_1c1u921">
-        <dc:Bounds x="1312" y="237" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0kas613_di" bpmnElement="Activity_0aglt9h">
         <dc:Bounds x="870" y="55" width="100" height="80" />
         <bpmndi:BPMNLabel />
@@ -157,18 +187,27 @@ execution.setVariable("constructorsWinner", JSON.stringify(winnerId));</bpmn:scr
           <dc:Bounds x="1194" y="200" width="86" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1grqien_di" bpmnElement="Event_0j3yf42">
-        <dc:Bounds x="1219" y="368" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1206" y="411" width="62" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0v7k72n_di" bpmnElement="Activity_04cy1jm">
         <dc:Bounds x="220" y="215" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0y4ijwy_di" bpmnElement="Event_0pqdog4">
         <dc:Bounds x="1112" y="237" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ocp0xp_di" bpmnElement="Event_1tpbc7g">
+        <dc:Bounds x="1362" y="237" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1c1u921_di" bpmnElement="Event_1c1u921">
+        <dc:Bounds x="1502" y="237" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1grqien_di" bpmnElement="Event_0j3yf42">
+        <dc:Bounds x="1219" y="417" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1206" y="460" width="62" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0o3gfoj_di" bpmnElement="Event_00oi2zk">
+        <dc:Bounds x="1219" y="322" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0qxsyw4_di" bpmnElement="Flow_0qxsyw4">
         <di:waypoint x="188" y="255" />
@@ -229,16 +268,16 @@ execution.setVariable("constructorsWinner", JSON.stringify(winnerId));</bpmn:scr
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1msjomh_di" bpmnElement="Flow_1msjomh">
         <di:waypoint x="1262" y="255" />
-        <di:waypoint x="1312" y="255" />
+        <di:waypoint x="1362" y="255" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1278" y="237" width="18" height="14" />
+          <dc:Bounds x="1303" y="237" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0oeeh0r_di" bpmnElement="Flow_0oeeh0r">
         <di:waypoint x="1237" y="280" />
-        <di:waypoint x="1237" y="368" />
+        <di:waypoint x="1237" y="322" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1245" y="321" width="15" height="14" />
+          <dc:Bounds x="1245" y="296" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_103n6oc_di" bpmnElement="Flow_103n6oc">
@@ -248,6 +287,14 @@ execution.setVariable("constructorsWinner", JSON.stringify(winnerId));</bpmn:scr
       <bpmndi:BPMNEdge id="Flow_15k8p97_di" bpmnElement="Flow_15k8p97">
         <di:waypoint x="1148" y="255" />
         <di:waypoint x="1212" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vaxuvx_di" bpmnElement="Flow_0vaxuvx">
+        <di:waypoint x="1398" y="255" />
+        <di:waypoint x="1502" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gcgl1s_di" bpmnElement="Flow_1gcgl1s">
+        <di:waypoint x="1237" y="358" />
+        <di:waypoint x="1237" y="417" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
