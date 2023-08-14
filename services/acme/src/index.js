@@ -16,6 +16,7 @@ const config = { baseUrl: 'http://localhost:8080/engine-rest', use: logger, asyn
 const camundaClient = new Client(config);
 const lockDurationMillis = 60 * 60 * 1000;
 const weekTimeoutMillis = 300000;
+const optimisticLockDelay = 200;
 
 
 initialize(app, config).then(() => {
@@ -263,6 +264,119 @@ initialize(app, config).then(() => {
             }
             
         });
+    });
+
+    camundaClient.subscribe('send-quotation-acceptance-notifications', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Sto mandando il progetto ai vincitori...")
+
+        let activities = JSON.parse(task.variables.get('activities'));
+        let project = JSON.parse(task.variables.get('project'));
+
+        if(activities.plumber.isNeeded) {
+            let winnerPlumber = JSON.parse(task.variables.get('winnerPlumber'));
+            axios({
+                method: "post",
+                url: "http://localhost:"+ winnerPlumber.plumberId + "/projects",
+                data: {...project, rfqNumber: winnerPlumber.rfqNumber}
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to post a project to plumber #" + winnerPlumber.plumberId);
+                console.log(err);
+            });
+        }
+
+        if(activities.electrician.isNeeded) {
+            let winnerElectrician = JSON.parse(task.variables.get('winnerElectrician'));
+            axios({
+                method: "post",
+                url: "http://localhost:"+ winnerElectrician.electricianId + "/projects",
+                data: {...project, rfqNumber: winnerElectrician.rfqNumber}
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to post a project to electrician #" + winnerElectrician.electricianId);
+                console.log(err);
+            });
+        }
+
+        if(activities.constructor.isNeeded) {
+            let winnerConstructor = JSON.parse(task.variables.get('winnerConstructor'));
+            axios({
+                method: "post",
+                url: "http://localhost:"+ winnerConstructor.constructorId + "/projects",
+                data: {...project, rfqNumber: winnerConstructor.rfqNumber}
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to post a project to constructor #" + winnerConstructor.constructorId);
+                console.log(err);
+            });
+        }
+
+        await taskService.complete(task);
+
+    });
+
+    camundaClient.subscribe('send-quotation-discard-notifications', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Sto mandando la notifica ai perdenti...")
+
+        let activities = JSON.parse(task.variables.get('activities'));
+
+        if(activities.plumber.isNeeded) {
+            let plumbersQuotations = JSON.parse(task.variables.get('plumbersQuotations'));
+            let winnerPlumber = JSON.parse(task.variables.get('winnerPlumber'));
+            let loserPlumberIds = thirdParties.plumbers.filter(plumberId => plumberId !== winnerPlumber.plumberId);
+            loserPlumberIds.forEach(plumberId => {
+                let rfqNumber = Object.entries(plumbersQuotations).find(([rfqNumber, value]) => value.plumberId === plumberId)[0];
+                axios({
+                    method: "delete",
+                    url: "http://localhost:"+ plumberId + "/rfq/" + rfqNumber
+                }).then((res) => {
+                }).catch((err) => {
+                    console.log("Failed to delete rfq #" + rfqNumber + "to plumber #" + plumberId);
+                    console.log(err);
+                });
+            });
+        }
+
+        if(activities.electrician.isNeeded) {
+            let electriciansQuotations = JSON.parse(task.variables.get('electriciansQuotations'));
+            let winnerElectrician = JSON.parse(task.variables.get('winnerElectrician'));
+            let loserElectricianIds = thirdParties.electricians.filter(electricianId => electricianId !== winnerElectrician.electricianId);
+            loserElectricianIds.forEach(electricianId => {
+                let rfqNumber = Object.entries(electriciansQuotations).find(([rfqNumber, value]) => value.electricianId === electricianId)[0];
+                axios({
+                    method: "delete",
+                    url: "http://localhost:"+ electricianId + "/rfq/" + rfqNumber
+                }).then((res) => {
+                }).catch((err) => {
+                    console.log("Failed to delete rfq #" + rfqNumber + "to electrician #" + electricianId);
+                    console.log(err);
+                });
+            });
+        }
+
+        if(activities.constructor.isNeeded) {
+            let constructorsQuotations = JSON.parse(task.variables.get('constructorsQuotations'));
+            let winnerConstructor = JSON.parse(task.variables.get('winnerConstructor'));
+            let loserConstructorIds = thirdParties.constructors.filter(constructorId => constructorId !== winnerConstructor.constructorId);
+            loserConstructorIds.forEach(constructorId => {
+                let rfqNumber = Object.entries(constructorsQuotations).find(([rfqNumber, value]) => value.constructorId === constructorId)[0];
+                axios({
+                    method: "delete",
+                    url: "http://localhost:"+ constructorId + "/rfq/" + rfqNumber
+                }).then((res) => {
+                }).catch((err) => {
+                    console.log("Failed to delete rfq #" + rfqNumber + "to constructor #" + constructorId);
+                    console.log(err);
+                });
+            });
+        }
+
+        setTimeout(async () => {
+            await taskService.complete(task);
+        }, optimisticLockDelay);
+
     });
 
 });

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0dhg705" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0dhg705" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:process id="Process_09rn0fe" name="Main process" isExecutable="true" camunda:historyTimeToLive="100">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_0xqizep</bpmn:outgoing>
@@ -133,7 +133,7 @@
     <bpmn:sequenceFlow id="Flow_0cumuk9" sourceRef="Gateway_14aude4" targetRef="Event_1hi425e" />
     <bpmn:boundaryEvent id="Event_0wl0sj4" name="Third parties deemed unavailable" attachedToRef="Process_0w8suqf">
       <bpmn:outgoing>Flow_1oz9jao</bpmn:outgoing>
-      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1xxuo3s" />
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1xxuo3s" escalationRef="Escalation_1nhjokm" />
     </bpmn:boundaryEvent>
     <bpmn:sendTask id="Activity_1vjq8i0" name="Send quotation acceptance notifications">
       <bpmn:incoming>Flow_10g0jk9</bpmn:incoming>
@@ -183,6 +183,10 @@
       <bpmn:outgoing>Flow_0jazk72</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:callActivity id="Process_0w8suqf" name="Select third parties" calledElement="">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:out variables="all" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_167xq9h</bpmn:incoming>
       <bpmn:outgoing>Flow_0pxopo5</bpmn:outgoing>
     </bpmn:callActivity>
@@ -216,6 +220,7 @@
       <bpmn:outgoing>Flow_0r685sr</bpmn:outgoing>
     </bpmn:userTask>
   </bpmn:process>
+  <bpmn:escalation id="Escalation_1nhjokm" name="Escalation_27nl3tk" escalationCode="Escalation_27nl3tk" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_09rn0fe">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
