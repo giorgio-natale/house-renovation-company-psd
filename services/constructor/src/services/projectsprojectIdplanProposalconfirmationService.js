@@ -27,15 +27,6 @@ module.exports.updatePlanProposalConfirmation = function updatePlanProposalConfi
             status: "NOT_STARTED"
         }))
     ];
-
-    let nextJobStatus;
-    if(Math.random() >= 0.2) {
-        nextJobStatus = "COMPLETED";
-    } else {
-        nextJobStatus = "FAILED";
-    }
-
-    db.projectDb[projId].jobs.find(job => job.status === "NOT_STARTED").status = nextJobStatus;
     
     sender.sendResponse(res, 200);
 }

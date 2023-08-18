@@ -17,6 +17,15 @@ module.exports.getJobs = function getJobs(req, res) {
         sender.sendResponse(res, 404);
         return;
     }
+
+    let nextJobStatus;
+    if(Math.random() >= 0.2) {
+        nextJobStatus = "COMPLETED";
+    } else {
+        nextJobStatus = "FAILED";
+    }
+
+    jobs[0].status = nextJobStatus;
     
     sender.sendResponse(res, 200, {
         jobs: jobs,

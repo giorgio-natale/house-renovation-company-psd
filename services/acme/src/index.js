@@ -273,46 +273,53 @@ initialize(app, config).then(() => {
         let activities = JSON.parse(task.variables.get('activities'));
         let project = JSON.parse(task.variables.get('project'));
 
+        let requests = [];
+
         if(activities.plumber.isNeeded) {
             let winnerPlumber = JSON.parse(task.variables.get('winnerPlumber'));
-            axios({
+            requests.push(axios({
                 method: "post",
                 url: "http://localhost:"+ winnerPlumber.plumberId + "/projects",
                 data: {...project, rfqNumber: winnerPlumber.rfqNumber}
-            }).then((res) => {
-            }).catch((err) => {
+            }).then((res) => ({variableName: "plumberProject", value: res.data})
+            ).catch((err) => {
                 console.log("Failed to post a project to plumber #" + winnerPlumber.plumberId);
                 console.log(err);
-            });
+            }));
         }
 
         if(activities.electrician.isNeeded) {
             let winnerElectrician = JSON.parse(task.variables.get('winnerElectrician'));
-            axios({
+            requests.push(axios({
                 method: "post",
                 url: "http://localhost:"+ winnerElectrician.electricianId + "/projects",
                 data: {...project, rfqNumber: winnerElectrician.rfqNumber}
-            }).then((res) => {
-            }).catch((err) => {
+            }).then((res) => ({variableName: "electricianProject", value: res.data})
+            ).catch((err) => {
                 console.log("Failed to post a project to electrician #" + winnerElectrician.electricianId);
                 console.log(err);
-            });
+            }));
         }
 
         if(activities.constructor.isNeeded) {
             let winnerConstructor = JSON.parse(task.variables.get('winnerConstructor'));
-            axios({
+            requests.push(axios({
                 method: "post",
                 url: "http://localhost:"+ winnerConstructor.constructorId + "/projects",
                 data: {...project, rfqNumber: winnerConstructor.rfqNumber}
-            }).then((res) => {
-            }).catch((err) => {
+            }).then((res) => ({variableName: "constructorProject", value: res.data})
+            ).catch((err) => {
                 console.log("Failed to post a project to constructor #" + winnerConstructor.constructorId);
                 console.log(err);
-            });
+            }));
         }
 
-        await taskService.complete(task);
+        Promise.all(requests).then(async (responses) => {
+            let obj = {};
+            responses.forEach(res => obj[res.variableName] = JSON.stringify(res.value));
+            let processVariables = new Variables().setAll(obj);
+            await taskService.complete(task, processVariables);
+        });
 
     });
 
@@ -321,6 +328,7 @@ initialize(app, config).then(() => {
         console.log("Sto mandando la notifica ai perdenti...")
 
         let activities = JSON.parse(task.variables.get('activities'));
+        let requests = [];
 
         if(activities.plumber.isNeeded) {
             let plumbersQuotations = JSON.parse(task.variables.get('plumbersQuotations'));
@@ -328,14 +336,14 @@ initialize(app, config).then(() => {
             let loserPlumberIds = thirdParties.plumbers.filter(plumberId => plumberId !== winnerPlumber.plumberId);
             loserPlumberIds.forEach(plumberId => {
                 let rfqNumber = Object.entries(plumbersQuotations).find(([rfqNumber, value]) => value.plumberId === plumberId)[0];
-                axios({
+                requests.push(axios({
                     method: "delete",
                     url: "http://localhost:"+ plumberId + "/rfq/" + rfqNumber
                 }).then((res) => {
                 }).catch((err) => {
                     console.log("Failed to delete rfq #" + rfqNumber + "to plumber #" + plumberId);
                     console.log(err);
-                });
+                }));
             });
         }
 
@@ -345,14 +353,14 @@ initialize(app, config).then(() => {
             let loserElectricianIds = thirdParties.electricians.filter(electricianId => electricianId !== winnerElectrician.electricianId);
             loserElectricianIds.forEach(electricianId => {
                 let rfqNumber = Object.entries(electriciansQuotations).find(([rfqNumber, value]) => value.electricianId === electricianId)[0];
-                axios({
+                requests.push(axios({
                     method: "delete",
                     url: "http://localhost:"+ electricianId + "/rfq/" + rfqNumber
                 }).then((res) => {
                 }).catch((err) => {
                     console.log("Failed to delete rfq #" + rfqNumber + "to electrician #" + electricianId);
                     console.log(err);
-                });
+                }));
             });
         }
 
@@ -362,21 +370,172 @@ initialize(app, config).then(() => {
             let loserConstructorIds = thirdParties.constructors.filter(constructorId => constructorId !== winnerConstructor.constructorId);
             loserConstructorIds.forEach(constructorId => {
                 let rfqNumber = Object.entries(constructorsQuotations).find(([rfqNumber, value]) => value.constructorId === constructorId)[0];
-                axios({
+                requests.push(axios({
                     method: "delete",
                     url: "http://localhost:"+ constructorId + "/rfq/" + rfqNumber
                 }).then((res) => {
                 }).catch((err) => {
                     console.log("Failed to delete rfq #" + rfqNumber + "to constructor #" + constructorId);
                     console.log(err);
-                });
+                }));
             });
         }
 
-        setTimeout(async () => {
-            await taskService.complete(task);
-        }, optimisticLockDelay);
+        Promise.all(requests).then(async (res) => {
+            setTimeout(async () => {
+                await taskService.complete(task);
+            }, optimisticLockDelay);
+        });
 
+    });
+
+    camundaClient.subscribe('offer-plan-proposal-constructor', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Sending plan proposal to constructor...");
+
+        let planProposal = JSON.parse(task.variables.get('constructorPlanProposal'));
+        let winnerConstructor = JSON.parse(task.variables.get('winnerConstructor'));
+        let project = JSON.parse(task.variables.get('constructorProject'));
+        
+        axios({
+            method: "post",
+            url: "http://localhost:"+ winnerConstructor.constructorId + "/projects/" + project.id + "/planProposal",
+            data: planProposal
+        }).then(async (res) => {
+            let processVariables = new Variables().set("constructorPlanProposal", JSON.stringify({...planProposal, status: res.data.status}));
+            await taskService.complete(task, processVariables);
+        }).catch((err) => {
+            console.log("Failed to post plan proposal to constructor #" + winnerConstructor.constructorId);
+            console.log(err);
+        });
+
+    });
+
+    camundaClient.subscribe('send-plan-proposal-approval-notifications', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Sending plan proposal confirmations...");
+
+        let activities = JSON.parse(task.variables.get('activities'));
+        let requests = [];
+
+        if(activities.plumber.isNeeded) {
+            let winnerPlumber = JSON.parse(task.variables.get('winnerPlumber'));
+            let project = JSON.parse(task.variables.get('plumberProject'));
+            requests.push(axios({
+                method: "put",
+                url: "http://localhost:"+ winnerPlumber.plumberId + "/projects/" + project.id + "/planProposal/confirmation",
+                data: {status: "CONFIRMED"}
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to post plan proposal confirmation to plumber #" + winnerPlumber.plumberId);
+                console.log(err);
+            }));
+        }
+
+        if(activities.electrician.isNeeded) {
+            let winnerElectrician = JSON.parse(task.variables.get('winnerElectrician'));
+            let project = JSON.parse(task.variables.get('electricianProject'));
+            requests.push(axios({
+                method: "put",
+                url: "http://localhost:"+ winnerElectrician.electricianId + "/projects/" + project.id + "/planProposal/confirmation",
+                data: {status: "CONFIRMED"}
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to post plan proposal confirmation to electrician #" + winnerElectrician.electricianId);
+                console.log(err);
+            }));
+        }
+        
+        if(activities.constructor.isNeeded) {
+            let winnerConstructor = JSON.parse(task.variables.get('winnerConstructor'));
+            let project = JSON.parse(task.variables.get('constructorProject'));
+            requests.push(axios({
+                method: "put",
+                url: "http://localhost:"+ winnerConstructor.constructorId + "/projects/" + project.id + "/planProposal/confirmation",
+                data: {status: "CONFIRMED"}
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to post plan proposal confirmation to constructor #" + winnerConstructor.constructorId);
+                console.log(err);
+            }));
+        }
+
+        Promise.all(requests).then(async (res) => {
+            await taskService.complete(task);
+        });
+        
+    });
+
+    camundaClient.subscribe('send-plan-proposal-discard-notifications', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Sending plan proposal discard notifications...");
+
+        let activities = JSON.parse(task.variables.get('activities'));
+        let requests = [];
+
+        if(activities.plumber.isNeeded) {
+            let winnerPlumber = JSON.parse(task.variables.get('winnerPlumber'));
+            let project = JSON.parse(task.variables.get('plumberProject'));
+            requests.push(axios({
+                method: "delete",
+                url: "http://localhost:"+ winnerPlumber.plumberId + "/projects/" + project.id + "/planProposal",
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to send plan proposal discard notification to plumber #" + winnerPlumber.plumberId);
+                console.log(err);
+            }));
+        }
+
+        if(activities.electrician.isNeeded) {
+            let winnerElectrician = JSON.parse(task.variables.get('winnerElectrician'));
+            let project = JSON.parse(task.variables.get('electricianProject'));
+            requests.push(axios({
+                method: "delete",
+                url: "http://localhost:"+ winnerElectrician.electricianId + "/projects/" + project.id + "/planProposal",
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to send plan proposal discard notification to electrician #" + winnerElectrician.electricianId);
+                console.log(err);
+            }));
+        }
+        
+        if(activities.constructor.isNeeded) {
+            let winnerConstructor = JSON.parse(task.variables.get('winnerConstructor'));
+            let project = JSON.parse(task.variables.get('constructorProject'));
+            requests.push(axios({
+                method: "delete",
+                url: "http://localhost:"+ winnerConstructor.constructorId + "/projects/" + project.id + "/planProposal",
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to send plan proposal discard notification to constructor #" + winnerConstructor.constructorId);
+                console.log(err);
+            }));
+        }
+
+        Promise.all(requests).then(async (res) => {
+            await taskService.complete(task);
+        });
+        
+    });
+
+    camundaClient.subscribe('get-jobs-status-constructor', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Getting job status from constructor...");
+
+        let winnerConstructor = JSON.parse(task.variables.get('winnerConstructor'));
+        let project = JSON.parse(task.variables.get('constructorProject'));
+        let today = JSON.parse(task.variables.get('today'));
+        
+        axios({
+            method: "get",
+            url: "http://localhost:"+ winnerConstructor.constructorId + "/projects/" + project.id + "/jobs?date=" + JSON.stringify(today)
+        }).then(async (res) => {
+            let processVariables = new Variables().set("constructorLastJobStatus", res.data.jobs[0].status);
+            await taskService.complete(task, processVariables);
+        }).catch((err) => {
+            console.log("Failed to get job status from constructor #" + winnerConstructor.constructorId);
+            console.log(err);
+        });
     });
 
 });
