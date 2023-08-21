@@ -94,7 +94,23 @@
     <bpmn:scriptTask id="Activity_0mx8kq4" name="Formulate plan proposal" scriptFormat="javascript">
       <bpmn:incoming>Flow_1a38nz4</bpmn:incoming>
       <bpmn:outgoing>Flow_1xp2x8w</bpmn:outgoing>
-      <bpmn:script></bpmn:script>
+      <bpmn:script>if(JSON.parse(execution.getVariable("electricianPlanProposal")) === null) {
+  let items = JSON.parse(execution.getVariable("activities")).electrician.items;
+  let date = new Date(JSON.parse(execution.getVariable("today")));
+
+  let jobProposals = items.map(item =&gt; {
+    date.setDate(date.getDate() +1);
+    return {
+      ...item,
+      startDateTime: date.toJSON(),
+      endDateTime: date.toJSON()
+    };
+  });
+  execution.setVariable(
+    "electricianPlanProposal",
+    JSON.stringify({"jobProposals": jobProposals})
+  );
+}</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="Flow_1xp2x8w" sourceRef="Activity_0mx8kq4" targetRef="Activity_13whhxj" />
     <bpmn:scriptTask id="Activity_0h1wncl" name="Formulate plan proposal" scriptFormat="javascript">

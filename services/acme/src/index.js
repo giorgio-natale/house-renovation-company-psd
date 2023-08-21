@@ -411,6 +411,28 @@ initialize(app, config).then(() => {
 
     });
 
+    camundaClient.subscribe('offer-plan-proposal-electrician', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Sending plan proposal to electrician...");
+
+        let planProposal = JSON.parse(task.variables.get('electricianPlanProposal'));
+        let winnerElectrician = JSON.parse(task.variables.get('winnerElectrician'));
+        let project = JSON.parse(task.variables.get('electricianProject'));
+        
+        axios({
+            method: "post",
+            url: "http://localhost:"+ winnerElectrician.electricianId + "/projects/" + project.id + "/planProposal",
+            data: planProposal
+        }).then(async (res) => {
+            let processVariables = new Variables().set("electricianPlanProposal", JSON.stringify({...planProposal, status: res.data.status}));
+            await taskService.complete(task, processVariables);
+        }).catch((err) => {
+            console.log("Failed to post plan proposal to electrician #" + winnerElectrician.electricianId);
+            console.log(err);
+        });
+
+    });
+
     camundaClient.subscribe('offer-plan-proposal-constructor', async function({ task, taskService }) {
         await taskService.extendLock(task, lockDurationMillis);
         console.log("Sending plan proposal to constructor...");
@@ -556,6 +578,26 @@ initialize(app, config).then(() => {
             await taskService.complete(task, processVariables);
         }).catch((err) => {
             console.log("Failed to get job status from plumber #" + winnerPlumber.plumberId);
+            console.log(err);
+        });
+    });
+
+    camundaClient.subscribe('get-jobs-status-electrician', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Getting job status from electrician...");
+
+        let winnerElectrician = JSON.parse(task.variables.get('winnerElectrician'));
+        let project = JSON.parse(task.variables.get('electricianProject'));
+        let today = JSON.parse(task.variables.get('today'));
+        
+        axios({
+            method: "get",
+            url: "http://localhost:"+ winnerElectrician.electricianId + "/projects/" + project.id + "/jobs?date=" + today
+        }).then(async (res) => {
+            let processVariables = new Variables().set("electricianLastJobStatus", JSON.stringify({status: res.data.jobs[0].status}));
+            await taskService.complete(task, processVariables);
+        }).catch((err) => {
+            console.log("Failed to get job status from electrician #" + winnerElectrician.electricianId);
             console.log(err);
         });
     });
