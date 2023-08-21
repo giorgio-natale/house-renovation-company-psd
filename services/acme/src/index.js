@@ -528,9 +528,9 @@ initialize(app, config).then(() => {
         
         axios({
             method: "get",
-            url: "http://localhost:"+ winnerConstructor.constructorId + "/projects/" + project.id + "/jobs?date=" + JSON.stringify(today)
+            url: "http://localhost:"+ winnerConstructor.constructorId + "/projects/" + project.id + "/jobs?date=" + today
         }).then(async (res) => {
-            let processVariables = new Variables().set("constructorLastJobStatus", res.data.jobs[0].status);
+            let processVariables = new Variables().set("constructorLastJobStatus", JSON.stringify({status: res.data.jobs[0].status}));
             await taskService.complete(task, processVariables);
         }).catch((err) => {
             console.log("Failed to get job status from constructor #" + winnerConstructor.constructorId);

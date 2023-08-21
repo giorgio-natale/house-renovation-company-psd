@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0dhg705" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0dhg705" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:process id="Process_09rn0fe" name="Main process" isExecutable="true" camunda:historyTimeToLive="100">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_0xqizep</bpmn:outgoing>
@@ -89,6 +89,7 @@ execution.setVariable('today',JSON.stringify(project.startDate));
       <bpmn:incoming>Flow_0lmyxx6</bpmn:incoming>
       <bpmn:outgoing>Flow_0vf7m4i</bpmn:outgoing>
       <bpmn:script>function updateJobProposals(variableName) {
+    let today = JSON.parse(execution.getVariable("today"));
     let oldJobProposals = JSON.parse(execution.getVariable(variableName)).jobProposals;
     let newJobProposals = oldJobProposals
     .filter(job =&gt; new Date(job.startDateTime) &gt; new Date(today))
@@ -112,11 +113,10 @@ execution.setVariable('today',JSON.stringify(project.startDate));
     execution.setVariable(variableName, JSON.stringify({jobProposals: newJobProposals}));
 }
 
-if(Math.random() &gt; 0.6) {
+if(Math.random() &gt; 1) {
     execution.setVariable("needToReschedule", JSON.stringify(false));
 } else {
     execution.setVariable("needToReschedule", JSON.stringify(true));
-    let today = JSON.parse(execution.getVariable("today"));
     if(JSON.parse(execution.getVariable("winnerPlumber")) !== null)
         updateJobProposals("plumberPlanProposal");
     if(JSON.parse(execution.getVariable("winnerElectrician")) !== null)
@@ -148,6 +148,10 @@ if(Math.random() &gt; 0.6) {
       <bpmn:outgoing>Flow_0qd2vb7</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:callActivity id="Activity_00j0u88" name="Monitor jobs status" calledElement="Process_0izg4o3">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:out variables="all" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1hgq4p5</bpmn:incoming>
       <bpmn:outgoing>Flow_0j731k9</bpmn:outgoing>
     </bpmn:callActivity>
@@ -157,18 +161,18 @@ if(Math.random() &gt; 0.6) {
     </bpmn:boundaryEvent>
     <bpmn:boundaryEvent id="Event_1vfd3hk" name="Jobs failed" attachedToRef="Activity_00j0u88">
       <bpmn:outgoing>Flow_0lmyxx6</bpmn:outgoing>
-      <bpmn:escalationEventDefinition id="EscalationEventDefinition_0pic0vz" escalationRef="Escalation_0ca5ndh" camunda:escalationCodeVariable="Escalation_0qgamdn" />
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_0pic0vz" escalationRef="Escalation_37i6avp" />
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_06ha8y0" sourceRef="Activity_1vkzso5" targetRef="Gateway_1ddgnlt" />
     <bpmn:sequenceFlow id="Flow_1ryhppr" sourceRef="Gateway_1ddgnlt" targetRef="Activity_1stw5z9" />
     <bpmn:sequenceFlow id="Flow_0v7984h" name="Yes" sourceRef="Gateway_0hs41pl" targetRef="Gateway_0lb8h9j">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">execution.getVariable("needToReschedule");</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">JSON.parse(execution.getVariable("needToReschedule"));</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1lycdxt" sourceRef="Event_1xgdosv" targetRef="Gateway_0lb8h9j" />
     <bpmn:sequenceFlow id="Flow_1adxbdg" sourceRef="Gateway_0lb8h9j" targetRef="Activity_1vkzso5" />
     <bpmn:sequenceFlow id="Flow_0qd2vb7" sourceRef="Activity_1stw5z9" targetRef="Gateway_0bhvrvj" />
     <bpmn:sequenceFlow id="Flow_1jype4m" name="No" sourceRef="Gateway_0hs41pl" targetRef="Gateway_0bhvrvj">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">!execution.getVariable("needToReschedule")</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">!JSON.parse(execution.getVariable("needToReschedule"))</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1bn6i6b" name="No" sourceRef="Gateway_0p21mlz" targetRef="Gateway_0bhvrvj">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">let today = JSON.parse(execution.getVariable("today"));
@@ -176,18 +180,18 @@ let allJobsCompleted = true;
 
 if(JSON.parse(execution.getVariable("winnerPlumber")) !== null) {
     let jobProposals = JSON.parse(execution.getVariable("plumberPlanProposal")).jobProposals;
-    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length()-1].endDateTime) === new Date(today);
+    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length-1].endDateTime) &lt;= new Date(today);
 }
 if(JSON.parse(execution.getVariable("winnerElectrician")) !== null) {
     let jobProposals = JSON.parse(execution.getVariable("electricianPlanProposal")).jobProposals;
-    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length()-1].endDateTime) === new Date(today);
+    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length-1].endDateTime) &lt;= new Date(today);
 }
 if(JSON.parse(execution.getVariable("winnerConstructor")) !== null) {
     let jobProposals = JSON.parse(execution.getVariable("constructorPlanProposal")).jobProposals;
-    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length()-1].endDateTime) === new Date(today);
+    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length-1].endDateTime) &lt;= new Date(today);
 }
 
-return !allJobsCompleted;</bpmn:conditionExpression>
+!allJobsCompleted;</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1hgq4p5" sourceRef="Gateway_0bhvrvj" targetRef="Activity_00j0u88" />
     <bpmn:sequenceFlow id="Flow_0lmyxx6" sourceRef="Event_1vfd3hk" targetRef="Activity_0vh39mt" />
@@ -200,18 +204,18 @@ let allJobsCompleted = true;
 
 if(JSON.parse(execution.getVariable("winnerPlumber")) !== null) {
     let jobProposals = JSON.parse(execution.getVariable("plumberPlanProposal")).jobProposals;
-    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length()-1].endDateTime) === new Date(today);
+    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length-1].endDateTime) &lt;= new Date(today);
 }
 if(JSON.parse(execution.getVariable("winnerElectrician")) !== null) {
     let jobProposals = JSON.parse(execution.getVariable("electricianPlanProposal")).jobProposals;
-    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length()-1].endDateTime) === new Date(today);
+    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length-1].endDateTime) &lt;= new Date(today);
 }
 if(JSON.parse(execution.getVariable("winnerConstructor")) !== null) {
     let jobProposals = JSON.parse(execution.getVariable("constructorPlanProposal")).jobProposals;
-    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length()-1].endDateTime) === new Date(today);
+    allJobsCompleted = allJobsCompleted &amp;&amp; new Date(jobProposals[jobProposals.length-1].endDateTime) &lt;= new Date(today);
 }
 
-return allJobsCompleted;</bpmn:conditionExpression>
+allJobsCompleted;</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:intermediateCatchEvent id="Event_05d8zym">
       <bpmn:incoming>Flow_1kkdglj</bpmn:incoming>
@@ -230,6 +234,7 @@ return allJobsCompleted;</bpmn:conditionExpression>
   <bpmn:escalation id="Escalation_0sam7k3" name="Event_10dedq9" escalationCode="Event_10dedq9" />
   <bpmn:escalation id="Escalation_0ob9ehp" name="Escalation_0qgamdn" escalationCode="Escalation_0qgamdn" />
   <bpmn:escalation id="Escalation_0ca5ndh" name="Escalation_0qgamdn" escalationCode="Escalation_0qgamdn" />
+  <bpmn:escalation id="Escalation_37i6avp" name="Escalation_0uak7vo" escalationCode="Escalation_0uak7vo" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_09rn0fe">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
@@ -275,10 +280,6 @@ return allJobsCompleted;</bpmn:conditionExpression>
       <bpmndi:BPMNShape id="BPMNShape_1mgb2yy" bpmnElement="Gateway_0bhvrvj" isMarkerVisible="true">
         <dc:Bounds x="1752" y="205" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_06u52vy" bpmnElement="Activity_0vh39mt">
-        <dc:Bounds x="1882" y="560" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_14yfltx" bpmnElement="Gateway_0hs41pl" isMarkerVisible="true">
         <dc:Bounds x="1752" y="575" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -300,6 +301,7 @@ return allJobsCompleted;</bpmn:conditionExpression>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_1j29k8g" bpmnElement="Activity_00j0u88">
         <dc:Bounds x="2025" y="190" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_00rxnhm_di" bpmnElement="Event_05d8zym">
         <dc:Bounds x="2422" y="212" width="36" height="36" />
@@ -307,10 +309,14 @@ return allJobsCompleted;</bpmn:conditionExpression>
       <bpmndi:BPMNShape id="Event_0lzyxek_di" bpmnElement="Event_0lzyxek">
         <dc:Bounds x="2592" y="212" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_08vuspl_di" bpmnElement="Event_0wl0sj4">
-        <dc:Bounds x="592" y="252" width="36" height="36" />
+      <bpmndi:BPMNShape id="BPMNShape_06u52vy" bpmnElement="Activity_0vh39mt">
+        <dc:Bounds x="1996" y="560" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0ezwai7" bpmnElement="Event_1vfd3hk">
+        <dc:Bounds x="2028" y="252" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="629" y="280" width="62" height="40" />
+          <dc:Bounds x="2020" y="295" width="53" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0uivw4x" bpmnElement="Event_1xgdosv">
@@ -319,10 +325,10 @@ return allJobsCompleted;</bpmn:conditionExpression>
           <dc:Bounds x="1437" y="281" width="68" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_0ezwai7" bpmnElement="Event_1vfd3hk">
-        <dc:Bounds x="2028" y="252" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_08vuspl_di" bpmnElement="Event_0wl0sj4">
+        <dc:Bounds x="592" y="252" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2020" y="295" width="53" height="14" />
+          <dc:Bounds x="629" y="280" width="62" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0xqizep_di" bpmnElement="Flow_0xqizep">
@@ -333,23 +339,9 @@ return allJobsCompleted;</bpmn:conditionExpression>
         <di:waypoint x="410" y="230" />
         <di:waypoint x="530" y="230" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0qdyh8g_di" bpmnElement="Flow_0qdyh8g">
-        <di:waypoint x="630" y="230" />
-        <di:waypoint x="755" y="230" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_1xej5yu" bpmnElement="Flow_10g0jk9">
         <di:waypoint x="914" y="348" />
         <di:waypoint x="970" y="348" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0f790vs_di" bpmnElement="Flow_0f790vs">
-        <di:waypoint x="1070" y="348" />
-        <di:waypoint x="1116" y="348" />
-        <di:waypoint x="1116" y="255" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_05k5vmt_di" bpmnElement="Flow_05k5vmt">
-        <di:waypoint x="780" y="255" />
-        <di:waypoint x="780" y="348" />
-        <di:waypoint x="814" y="348" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1atfxtr_di" bpmnElement="Flow_1atfxtr">
         <di:waypoint x="610" y="288" />
@@ -359,17 +351,27 @@ return allJobsCompleted;</bpmn:conditionExpression>
         <di:waypoint x="610" y="398" />
         <di:waypoint x="610" y="432" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qdyh8g_di" bpmnElement="Flow_0qdyh8g">
+        <di:waypoint x="630" y="230" />
+        <di:waypoint x="755" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05k5vmt_di" bpmnElement="Flow_05k5vmt">
+        <di:waypoint x="780" y="255" />
+        <di:waypoint x="780" y="348" />
+        <di:waypoint x="814" y="348" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10bzzab_di" bpmnElement="Flow_10bzzab">
         <di:waypoint x="805" y="230" />
         <di:waypoint x="890" y="230" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f790vs_di" bpmnElement="Flow_0f790vs">
+        <di:waypoint x="1070" y="348" />
+        <di:waypoint x="1116" y="348" />
+        <di:waypoint x="1116" y="255" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0quuljw_di" bpmnElement="Flow_0quuljw">
         <di:waypoint x="990" y="230" />
         <di:waypoint x="1091" y="230" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_17om321_di" bpmnElement="Flow_17om321">
-        <di:waypoint x="1141" y="230" />
-        <di:waypoint x="1215" y="230" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_0mk243y" bpmnElement="Flow_06ha8y0">
         <di:waypoint x="1341" y="600" />
@@ -421,16 +423,19 @@ return allJobsCompleted;</bpmn:conditionExpression>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_1dz8anp" bpmnElement="Flow_0lmyxx6">
         <di:waypoint x="2046" y="288" />
-        <di:waypoint x="2046" y="600" />
-        <di:waypoint x="1982" y="600" />
+        <di:waypoint x="2046" y="560" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_0nuny5m" bpmnElement="Flow_0vf7m4i">
-        <di:waypoint x="1882" y="600" />
+        <di:waypoint x="1996" y="600" />
         <di:waypoint x="1802" y="600" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_17887h8" bpmnElement="Flow_0j731k9">
         <di:waypoint x="2125" y="230" />
         <di:waypoint x="2247" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17om321_di" bpmnElement="Flow_17om321">
+        <di:waypoint x="1141" y="230" />
+        <di:waypoint x="1215" y="230" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1kkdglj_di" bpmnElement="Flow_1kkdglj">
         <di:waypoint x="2297" y="230" />

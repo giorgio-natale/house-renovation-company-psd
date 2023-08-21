@@ -25,6 +25,8 @@ module.exports.getJobs = function getJobs(req, res) {
         nextJobStatus = "FAILED";
     }
 
+    console.log("Job of date " + date.toJSON().slice(0,10) + " " + nextJobStatus);
+
     jobs[0].status = nextJobStatus;
     
     sender.sendResponse(res, 200, {
