@@ -28,7 +28,7 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
                 status: "CANCELLED"
             }
         }
-    }, 10000);
+    }, 1000);
 
     sender.sendResponse(res, 201, {
         rfqNumber: rfqNumber,

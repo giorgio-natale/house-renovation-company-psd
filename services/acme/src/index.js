@@ -389,6 +389,28 @@ initialize(app, config).then(() => {
 
     });
 
+    camundaClient.subscribe('offer-plan-proposal-plumber', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Sending plan proposal to plumber...");
+
+        let planProposal = JSON.parse(task.variables.get('plumberPlanProposal'));
+        let winnerPlumber = JSON.parse(task.variables.get('winnerPlumber'));
+        let project = JSON.parse(task.variables.get('plumberProject'));
+        
+        axios({
+            method: "post",
+            url: "http://localhost:"+ winnerPlumber.plumberId + "/projects/" + project.id + "/planProposal",
+            data: planProposal
+        }).then(async (res) => {
+            let processVariables = new Variables().set("plumberPlanProposal", JSON.stringify({...planProposal, status: res.data.status}));
+            await taskService.complete(task, processVariables);
+        }).catch((err) => {
+            console.log("Failed to post plan proposal to plumber #" + winnerPlumber.plumberId);
+            console.log(err);
+        });
+
+    });
+
     camundaClient.subscribe('offer-plan-proposal-constructor', async function({ task, taskService }) {
         await taskService.extendLock(task, lockDurationMillis);
         console.log("Sending plan proposal to constructor...");
@@ -516,6 +538,26 @@ initialize(app, config).then(() => {
             await taskService.complete(task);
         });
         
+    });
+
+    camundaClient.subscribe('get-jobs-status-plumber', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Getting job status from plumber...");
+
+        let winnerPlumber = JSON.parse(task.variables.get('winnerPlumber'));
+        let project = JSON.parse(task.variables.get('plumberProject'));
+        let today = JSON.parse(task.variables.get('today'));
+        
+        axios({
+            method: "get",
+            url: "http://localhost:"+ winnerPlumber.plumberId + "/projects/" + project.id + "/jobs?date=" + today
+        }).then(async (res) => {
+            let processVariables = new Variables().set("plumberLastJobStatus", JSON.stringify({status: res.data.jobs[0].status}));
+            await taskService.complete(task, processVariables);
+        }).catch((err) => {
+            console.log("Failed to get job status from plumber #" + winnerPlumber.plumberId);
+            console.log(err);
+        });
     });
 
     camundaClient.subscribe('get-jobs-status-constructor', async function({ task, taskService }) {

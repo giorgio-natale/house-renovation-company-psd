@@ -31,7 +31,23 @@
     <bpmn:scriptTask id="Activity_018udsk" name="Formulate plan proposal" scriptFormat="javascript">
       <bpmn:incoming>Flow_1d3x9fv</bpmn:incoming>
       <bpmn:outgoing>Flow_0swlqaq</bpmn:outgoing>
-      <bpmn:script></bpmn:script>
+      <bpmn:script>if(JSON.parse(execution.getVariable("plumberPlanProposal")) === null) {
+  let items = JSON.parse(execution.getVariable("activities")).plumber.items;
+  let date = new Date(JSON.parse(execution.getVariable("today")));
+
+  let jobProposals = items.map(item =&gt; {
+    date.setDate(date.getDate() +1);
+    return {
+      ...item,
+      startDateTime: date.toJSON(),
+      endDateTime: date.toJSON()
+    };
+  });
+  execution.setVariable(
+    "plumberPlanProposal",
+    JSON.stringify({"jobProposals": jobProposals})
+  );
+}</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:endEvent id="Event_10dedq9" name="Plan proposal discarded">
       <bpmn:incoming>Flow_0v6q3ww</bpmn:incoming>

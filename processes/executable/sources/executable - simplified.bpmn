@@ -8,7 +8,7 @@
     <bpmn:scriptTask id="Activity_1kfpcfn" name="Define activities" scriptFormat="javascript">
       <bpmn:incoming>Flow_0xqizep</bpmn:incoming>
       <bpmn:outgoing>Flow_167xq9h</bpmn:outgoing>
-      <bpmn:script>execution.setVariable('activities','{"plumber":{"isNeeded":false,"items":[]},"electrician":{"isNeeded":false,"items":[]},"constructor":{"isNeeded":true,"items":[{"title":"A1","description":"a1"},{"title":"A2","description":"a2"},{"title":"A3","description":"a3"}]}}');</bpmn:script>
+      <bpmn:script>execution.setVariable('activities','{"plumber":{"isNeeded":true,"items":[{"title":"A1","description":"a1"},{"title":"A2","description":"a2"},{"title":"A3","description":"a3"}]},"electrician":{"isNeeded":false,"items":[{"title":"A1","description":"a1"},{"title":"A2","description":"a2"},{"title":"A3","description":"a3"}]},"constructor":{"isNeeded":false,"items":[{"title":"A1","description":"a1"},{"title":"A2","description":"a2"},{"title":"A3","description":"a3"}]}}');</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="Flow_167xq9h" sourceRef="Activity_1kfpcfn" targetRef="Process_0w8suqf" />
     <bpmn:boundaryEvent id="Event_0wl0sj4" name="Third parties deemed unavailable" attachedToRef="Process_0w8suqf">
@@ -104,8 +104,10 @@ execution.setVariable('today',JSON.stringify(project.startDate));
     });
     let tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
+
+    let compensatedJob = oldJobProposals.find(job =&gt; new Date(job.startDateTime).getDate() === new Date(today).getDate())
     newJobProposals.unshift({
-        title: "Compensating job",
+        title: "Compensating job [" + compensatedJob.title + "]",
         description: "Compensating job",
         startDateTime: tomorrow.toJSON(),
         endDateTime: tomorrow.toJSON()
