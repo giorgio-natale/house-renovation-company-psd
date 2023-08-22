@@ -1,0 +1,44 @@
+{
+  "components": [
+    {
+      "text": "# We are done!",
+      "type": "text",
+      "layout": {
+        "row": "Row_1mlez16",
+        "columns": null
+      },
+      "id": "Field_0oe16sg"
+    },
+    {
+      "label": "Invoice amount",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0ci8imw",
+        "columns": null
+      },
+      "id": "Field_1sl3n92",
+      "key": "invoiceAmount",
+      "disabled": true
+    },
+    {
+      "action": "submit",
+      "label": "Pay",
+      "type": "button",
+      "layout": {
+        "row": "Row_0o785mr",
+        "columns": null
+      },
+      "id": "Field_17nlpds",
+      "key": "field_0xdjcy0"
+    }
+  ],
+  "type": "default",
+  "id": "pay-invoice",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.10.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

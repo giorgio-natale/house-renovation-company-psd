@@ -1,0 +1,42 @@
+{
+  "components": [
+    {
+      "text": "# We are sorry...",
+      "type": "text",
+      "layout": {
+        "row": "Row_15xlw69",
+        "columns": null
+      },
+      "id": "Field_1nocqy8"
+    },
+    {
+      "text": "### Your request has been evaluated as unfeasible.",
+      "type": "text",
+      "layout": {
+        "row": "Row_0y8ktse",
+        "columns": null
+      },
+      "id": "Field_17s46hy"
+    },
+    {
+      "action": "submit",
+      "label": "Understood",
+      "type": "button",
+      "layout": {
+        "row": "Row_1wosbea",
+        "columns": null
+      },
+      "id": "Field_1ev2yqz",
+      "key": "field_0ertl63"
+    }
+  ],
+  "type": "default",
+  "id": "send-unfeasible-project-notification",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.10.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

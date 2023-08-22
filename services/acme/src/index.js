@@ -55,11 +55,14 @@ initialize(app, config).then(() => {
         let weekTimeout = setTimeout(() => {
             weekTimeoutExpired = true;
         }, weekTimeoutMillis);
-        console.log("Sto contattando i plumbers ( task id '" + task.id + "')");
+        console.log("Exchanging quotation with plumbers...");
         let rfqs = {};
 
         let activities = JSON.parse(task.variables.get('activities'));
         let items = activities.plumber.items;
+
+        let customerContact = JSON.parse(task.variables.get('customerContact'));
+        let site = JSON.parse(task.variables.get('site'));    
 
         thirdParties["plumbers"].forEach(plumberId => {
             let rfqIdNum = getNextVal();
@@ -68,25 +71,16 @@ initialize(app, config).then(() => {
 
             let postRequest = {
                 "rfqNumber": rfqNumber,
-                "customerContact": {
-                  "name": "householder",
-                  "address": "my address",
-                  "phoneNumber": "03512345678",
-                  "emailAddress": "myEmailAddress"
-                },
+                "customerContact": customerContact,
                 "renovationCompanyContact": {
                   "name": "Acme Corp",
                   "address": "Fairfield, New Jersey",
                   "phoneNumber": "39212345678",
                   "emailAddress": "acme-corp@acme.com"
                 },
-                "site": {
-                  "address": "my address",
-                  "squareMeters": 127,
-                  "constructionYear": "1999"
-                },
+                "site": site,
                 "items": items,
-                "estimatedStartDate": "2023-04-18",
+                "estimatedStartDate": new Date().toJSON().slice(0, 10),
                 "waterPoints": 15
             };
 
@@ -140,20 +134,25 @@ initialize(app, config).then(() => {
     });
 
     camundaClient.subscribe('electricians-quotation-exchange', async function({ task, taskService }) {
-        console.log("Sto contattando gli electricians ( task id '" + task.id + "')");
+        console.log("Exchanging quotation with electricians...");
 
         await taskService.extendLock(task, lockDurationMillis);
 
         let processContext = {task: task, taskService: taskService, rfqs: {}, weekTimeoutExpired: false}
 
-        setTimeout(() => {
+        setTimeout(async () => {
             processContext.weekTimeoutExpired = true;
+            let processVariables = new Variables().set("electriciansQuotations", JSON.stringify(processContext.rfqs));
+            await processContext.taskService.complete(processContext.task, processVariables);
         }, weekTimeoutMillis);
 
         let rfqs = {};
 
         let activities = JSON.parse(task.variables.get('activities'));
         let items = activities.electrician.items;
+
+        let customerContact = JSON.parse(task.variables.get('customerContact'));
+        let site = JSON.parse(task.variables.get('site'));  
 
         thirdParties["electricians"].forEach(electricianId => {
             let rfqIdNum = getNextVal();
@@ -164,30 +163,20 @@ initialize(app, config).then(() => {
             let postRequest = {
                 "rfq": {
                     "rfqNumber": rfqNumber,
-                    "customerContact": {
-                        "name": "householder",
-                        "address": "my address",
-                        "phoneNumber": "03512345678",
-                        "emailAddress": "myEmailAddress"
-                    },
+                    "customerContact": customerContact,
                     "renovationCompanyContact": {
-                        "name": "Acme Corp",
-                        "address": "Fairfield, New Jersey",
-                        "phoneNumber": "39212345678",
-                        "emailAddress": "acme-corp@acme.com"
+                      "name": "Acme Corp",
+                      "address": "Fairfield, New Jersey",
+                      "phoneNumber": "39212345678",
+                      "emailAddress": "acme-corp@acme.com"
                     },
-                    "site": {
-                        "address": "my address",
-                        "squareMeters": 127,
-                        "constructionYear": "1999"
-                    },
+                    "site": site,
                     "items": items,
-                    "estimatedStartDate": "2023-04-18",
+                    "estimatedStartDate": new Date().toJSON().slice(0, 10),
                     "lightPoints": 15
                 },
                 "callbackUrl": "http://localhost:9000/rfq/" + rfqNumber + "/quotation"
             }
-
 
             axios({
                 method: "post",
@@ -205,7 +194,7 @@ initialize(app, config).then(() => {
     });
 
     camundaClient.subscribe('constructors-quotation-exchange', async function({ task, taskService }) {
-        console.log("Sto contattando i constructors ( task id '" + task.id + "')");
+        console.log("Exchanging quotation with constructors...");
         await taskService.extendLock(task, lockDurationMillis);
         let weekTimeoutExpired = false;
         let weekTimeout = setTimeout(() => {
@@ -216,6 +205,9 @@ initialize(app, config).then(() => {
         let activities = JSON.parse(task.variables.get('activities'));
         let items = activities.constructor.items;
 
+        let customerContact = JSON.parse(task.variables.get('customerContact'));
+        let site = JSON.parse(task.variables.get('site'));  
+
         thirdParties["constructors"].forEach(constructorId => {
             if(!weekTimeoutExpired){
                 let rfqIdNum = getNextVal();
@@ -224,25 +216,16 @@ initialize(app, config).then(() => {
 
                 let postRequest = {
                     "rfqNumber": rfqNumber,
-                    "customerContact": {
-                    "name": "householder",
-                    "address": "my address",
-                    "phoneNumber": "03512345678",
-                    "emailAddress": "myEmailAddress"
-                    },
+                    "customerContact": customerContact,
                     "renovationCompanyContact": {
-                    "name": "Acme Corp",
-                    "address": "Fairfield, New Jersey",
-                    "phoneNumber": "39212345678",
-                    "emailAddress": "acme-corp@acme.com"
+                      "name": "Acme Corp",
+                      "address": "Fairfield, New Jersey",
+                      "phoneNumber": "39212345678",
+                      "emailAddress": "acme-corp@acme.com"
                     },
-                    "site": {
-                    "address": "my address",
-                    "squareMeters": 127,
-                    "constructionYear": "1999"
-                    },
+                    "site": site,
                     "items": items,
-                    "estimatedStartDate": "2023-04-18"
+                    "estimatedStartDate": new Date().toJSON().slice(0, 10),
                 }
 
 
@@ -268,7 +251,7 @@ initialize(app, config).then(() => {
 
     camundaClient.subscribe('send-quotation-acceptance-notifications', async function({ task, taskService }) {
         await taskService.extendLock(task, lockDurationMillis);
-        console.log("Sto mandando il progetto ai vincitori...")
+        console.log("Sending project to winners...");
 
         let activities = JSON.parse(task.variables.get('activities'));
         let project = JSON.parse(task.variables.get('project'));
@@ -325,7 +308,7 @@ initialize(app, config).then(() => {
 
     camundaClient.subscribe('send-quotation-discard-notifications', async function({ task, taskService }) {
         await taskService.extendLock(task, lockDurationMillis);
-        console.log("Sto mandando la notifica ai perdenti...")
+        console.log("Sending quotation discard notification to losers...")
 
         let activities = JSON.parse(task.variables.get('activities'));
         let requests = [];
@@ -389,6 +372,64 @@ initialize(app, config).then(() => {
 
     });
 
+    camundaClient.subscribe('send-quotation-discard-notifications-due-to-unavailable-third-parties', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Sending quotation discard notification due to unavailable third parties...");
+
+        let activities = JSON.parse(task.variables.get('activities'));
+        let requests = [];
+
+        if(activities.plumber.isNeeded) {
+            let plumbersQuotations = JSON.parse(task.variables.get('plumbersQuotations'));
+            thirdParties.plumbers.forEach(plumberId => {
+                let rfqNumber = Object.entries(plumbersQuotations).find(([rfqNumber, value]) => value.plumberId === plumberId)[0];
+                requests.push(axios({
+                    method: "delete",
+                    url: "http://localhost:"+ plumberId + "/rfq/" + rfqNumber
+                }).then((res) => {
+                }).catch((err) => {
+                    console.log("Failed to delete rfq #" + rfqNumber + "to plumber #" + plumberId);
+                    console.log(err);
+                }));
+            });
+        }
+
+        if(activities.electrician.isNeeded) {
+            let electriciansQuotations = JSON.parse(task.variables.get('electriciansQuotations'));
+            thirdParties.electricians.forEach(electricianId => {
+                let rfqNumber = Object.entries(electriciansQuotations).find(([rfqNumber, value]) => value.electricianId === electricianId)[0];
+                requests.push(axios({
+                    method: "delete",
+                    url: "http://localhost:"+ electricianId + "/rfq/" + rfqNumber
+                }).then((res) => {
+                }).catch((err) => {
+                    console.log("Failed to delete rfq #" + rfqNumber + "to electrician #" + electricianId);
+                    console.log(err);
+                }));
+            });
+        }
+
+        if(activities.constructor.isNeeded) {
+            let constructorsQuotations = JSON.parse(task.variables.get('constructorsQuotations'));
+            thirdParties.constructors.forEach(constructorId => {
+                let rfqNumber = Object.entries(constructorsQuotations).find(([rfqNumber, value]) => value.constructorId === constructorId)[0];
+                requests.push(axios({
+                    method: "delete",
+                    url: "http://localhost:"+ constructorId + "/rfq/" + rfqNumber
+                }).then((res) => {
+                }).catch((err) => {
+                    console.log("Failed to delete rfq #" + rfqNumber + "to constructor #" + constructorId);
+                    console.log(err);
+                }));
+            });
+        }
+
+        Promise.all(requests).then(async (res) => {
+            await taskService.complete(task);
+        });
+
+    });
+
     camundaClient.subscribe('offer-plan-proposal-plumber', async function({ task, taskService }) {
         await taskService.extendLock(task, lockDurationMillis);
         console.log("Sending plan proposal to plumber...");
@@ -425,7 +466,9 @@ initialize(app, config).then(() => {
             data: planProposal
         }).then(async (res) => {
             let processVariables = new Variables().set("electricianPlanProposal", JSON.stringify({...planProposal, status: res.data.status}));
-            await taskService.complete(task, processVariables);
+            setTimeout(async () => {
+                await taskService.complete(task, processVariables);
+            }, optimisticLockDelay);
         }).catch((err) => {
             console.log("Failed to post plan proposal to electrician #" + winnerElectrician.electricianId);
             console.log(err);
@@ -447,7 +490,9 @@ initialize(app, config).then(() => {
             data: planProposal
         }).then(async (res) => {
             let processVariables = new Variables().set("constructorPlanProposal", JSON.stringify({...planProposal, status: res.data.status}));
-            await taskService.complete(task, processVariables);
+            setTimeout(async () => {
+                await taskService.complete(task, processVariables);
+            }, optimisticLockDelay * 2);
         }).catch((err) => {
             console.log("Failed to post plan proposal to constructor #" + winnerConstructor.constructorId);
             console.log(err);
@@ -595,7 +640,9 @@ initialize(app, config).then(() => {
             url: "http://localhost:"+ winnerElectrician.electricianId + "/projects/" + project.id + "/jobs?date=" + today
         }).then(async (res) => {
             let processVariables = new Variables().set("electricianLastJobStatus", JSON.stringify({status: res.data.jobs[0].status}));
-            await taskService.complete(task, processVariables);
+            setTimeout(async () => {
+                await taskService.complete(task, processVariables);
+            }, optimisticLockDelay);
         }).catch((err) => {
             console.log("Failed to get job status from electrician #" + winnerElectrician.electricianId);
             console.log(err);
@@ -615,11 +662,68 @@ initialize(app, config).then(() => {
             url: "http://localhost:"+ winnerConstructor.constructorId + "/projects/" + project.id + "/jobs?date=" + today
         }).then(async (res) => {
             let processVariables = new Variables().set("constructorLastJobStatus", JSON.stringify({status: res.data.jobs[0].status}));
-            await taskService.complete(task, processVariables);
+            setTimeout(async () => {
+                await taskService.complete(task, processVariables);
+            }, optimisticLockDelay * 2);
         }).catch((err) => {
             console.log("Failed to get job status from constructor #" + winnerConstructor.constructorId);
             console.log(err);
         });
+    });
+
+    camundaClient.subscribe('send-project-completion-notifications', async function({ task, taskService }) {
+        await taskService.extendLock(task, lockDurationMillis);
+        console.log("Sending project completion notifications...");
+        
+        let activities = JSON.parse(task.variables.get('activities'));
+        let requests = [];
+
+        if(activities.plumber.isNeeded) {
+            let winnerPlumber = JSON.parse(task.variables.get('winnerPlumber'));
+            let project = JSON.parse(task.variables.get('plumberProject'));
+            requests.push(axios({
+                method: "put",
+                url: "http://localhost:"+ winnerPlumber.plumberId + "/projects/" + project.id + "/status",
+                data: {status: "COMPLETED"}
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to send project completion notification to plumber #" + winnerPlumber.plumberId);
+                console.log(err);
+            }));
+        }
+
+        if(activities.electrician.isNeeded) {
+            let winnerElectrician = JSON.parse(task.variables.get('winnerElectrician'));
+            let project = JSON.parse(task.variables.get('electricianProject'));
+            requests.push(axios({
+                method: "put",
+                url: "http://localhost:"+ winnerElectrician.electricianId + "/projects/" + project.id + "/status",
+                data: {status: "COMPLETED"}
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to send project completion notification to electrician #" + winnerElectrician.electricianId);
+                console.log(err);
+            }));
+        }
+        
+        if(activities.constructor.isNeeded) {
+            let winnerConstructor = JSON.parse(task.variables.get('winnerConstructor'));
+            let project = JSON.parse(task.variables.get('constructorProject'));
+            requests.push(axios({
+                method: "put",
+                url: "http://localhost:"+ winnerConstructor.constructorId + "/projects/" + project.id + "/status",
+                data: {status: "COMPLETED"}
+            }).then((res) => {
+            }).catch((err) => {
+                console.log("Failed to send project completion notification to constructor #" + winnerConstructor.constructorId);
+                console.log(err);
+            }));
+        }
+
+        Promise.all(requests).then(async (res) => {
+            await taskService.complete(task);
+        });
+       
     });
 
 });
