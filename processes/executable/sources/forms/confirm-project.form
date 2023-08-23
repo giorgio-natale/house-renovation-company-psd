@@ -1,0 +1,42 @@
+{
+  "components": [
+    {
+      "text": "# Your request is confirmed!",
+      "type": "text",
+      "layout": {
+        "row": "Row_01jg5oi",
+        "columns": null
+      },
+      "id": "Field_1mluvab"
+    },
+    {
+      "text": "### Jobs will start tomorrow.",
+      "type": "text",
+      "layout": {
+        "row": "Row_0aikgum",
+        "columns": null
+      },
+      "id": "Field_09iyuzz"
+    },
+    {
+      "action": "submit",
+      "label": "Understood",
+      "type": "button",
+      "layout": {
+        "row": "Row_16m8vlz",
+        "columns": null
+      },
+      "id": "Field_12himof",
+      "key": "field_02o9vou"
+    }
+  ],
+  "type": "default",
+  "id": "confirm-project",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.10.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

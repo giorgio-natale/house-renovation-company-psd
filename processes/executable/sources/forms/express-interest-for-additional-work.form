@@ -1,0 +1,52 @@
+{
+  "components": [
+    {
+      "text": "# Jobs are all completed!",
+      "type": "text",
+      "layout": {
+        "row": "Row_1vg0b4k",
+        "columns": null
+      },
+      "id": "Field_1i6q6lz"
+    },
+    {
+      "text": "## Would you like us to schedule additional work?",
+      "type": "text",
+      "layout": {
+        "row": "Row_1u6xkjz",
+        "columns": null
+      },
+      "id": "Field_1wioxoy"
+    },
+    {
+      "label": "Yes, I need additional work",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_076q9o7",
+        "columns": null
+      },
+      "id": "Field_0ae4h89",
+      "key": "needAdditionalWork"
+    },
+    {
+      "action": "submit",
+      "label": "Submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_1qnytpz",
+        "columns": null
+      },
+      "id": "Field_09wfuxt",
+      "key": "field_0xwk61z"
+    }
+  ],
+  "type": "default",
+  "id": "express-interest-for-additional-work",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.10.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

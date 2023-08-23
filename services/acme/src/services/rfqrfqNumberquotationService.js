@@ -13,9 +13,6 @@ export async function updateQuotation(req, res) {
             let processVariables = new Variables().set("electriciansQuotations", JSON.stringify(processContext.rfqs));
             await processContext.taskService.complete(processContext.task, processVariables);
         };
-    } else {
-        let processVariables = new Variables().set("electriciansQuotations", JSON.stringify(processContext.rfqs));
-        await processContext.taskService.complete(processContext.task, processVariables);
     }
 
     res

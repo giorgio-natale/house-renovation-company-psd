@@ -1,0 +1,121 @@
+{
+  "components": [
+    {
+      "text": "# Renovation project request",
+      "type": "text",
+      "layout": {
+        "row": "Row_0l4q4rb",
+        "columns": null
+      },
+      "id": "Field_0pdtgxa"
+    },
+    {
+      "text": "## Customer contacts",
+      "type": "text",
+      "layout": {
+        "row": "Row_0vva3zx",
+        "columns": null
+      },
+      "id": "Field_12eiyxm"
+    },
+    {
+      "label": "name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0hy4yum",
+        "columns": null
+      },
+      "id": "Field_0rthq7z",
+      "key": "name"
+    },
+    {
+      "label": "address",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1o2pyhy",
+        "columns": null
+      },
+      "id": "Field_0nd5dt7",
+      "key": "customerAddress"
+    },
+    {
+      "label": "phone number",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0y2lses",
+        "columns": null
+      },
+      "id": "Field_1am5epo",
+      "key": "phoneNumber"
+    },
+    {
+      "label": "email address",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1oewu6f",
+        "columns": null
+      },
+      "id": "Field_0m572hq",
+      "key": "emailAddress"
+    },
+    {
+      "text": "## Site",
+      "type": "text",
+      "layout": {
+        "row": "Row_0kve59t",
+        "columns": null
+      },
+      "id": "Field_13vsx5x"
+    },
+    {
+      "label": "address",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0s7nxfi",
+        "columns": null
+      },
+      "id": "Field_1elkwbs",
+      "key": "siteAddress"
+    },
+    {
+      "label": "construction year",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_05j6j80",
+        "columns": null
+      },
+      "id": "Field_0ljf0yt",
+      "key": "constructionYear"
+    },
+    {
+      "label": "square meters",
+      "type": "number",
+      "layout": {
+        "row": "Row_05j6j80",
+        "columns": null
+      },
+      "id": "Field_02zxb6w",
+      "key": "squareMeters"
+    },
+    {
+      "action": "submit",
+      "label": "Send request",
+      "type": "button",
+      "layout": {
+        "row": "Row_1nlwhl1",
+        "columns": null
+      },
+      "id": "Field_099hi8d",
+      "key": "field_1ychuyj"
+    }
+  ],
+  "type": "default",
+  "id": "request-renovation-project",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.10.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

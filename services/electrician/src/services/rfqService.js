@@ -38,7 +38,7 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
             url: callbackUrl,
             data: db.quotationDb[rfqNumber].quotation
           })
-          .then(res => console.log("Response from rfq callback: " + res))
+          .then(res => {})
           .catch((err) => console.log("Response from rfq callback: " + err));
         
     }, 10000);

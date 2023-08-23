@@ -32,7 +32,7 @@ module.exports.registerProject = function registerProject(req, res) {
     db.projectDb[generatedProjId] = {
         project: {
             id: generatedProjId,
-            status: "NOT_STARTED",
+            status: "IN_PROGRESS",
             ...req.body
         },
         planProposals: [],

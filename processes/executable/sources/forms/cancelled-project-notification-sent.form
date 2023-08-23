@@ -1,0 +1,42 @@
+{
+  "components": [
+    {
+      "text": "# We are sorry...",
+      "type": "text",
+      "layout": {
+        "row": "Row_0gryc6m",
+        "columns": null
+      },
+      "id": "Field_0zpurtf"
+    },
+    {
+      "text": "### Third parties contacted for your request are not available, so your project has been cancelled.",
+      "type": "text",
+      "layout": {
+        "row": "Row_1jgjz3b",
+        "columns": null
+      },
+      "id": "Field_0iht962"
+    },
+    {
+      "action": "submit",
+      "label": "Understood",
+      "type": "button",
+      "layout": {
+        "row": "Row_1ivmtm1",
+        "columns": null
+      },
+      "id": "Field_1ccmjkf",
+      "key": "field_0qvh740"
+    }
+  ],
+  "type": "default",
+  "id": "cancelled-project-notification-sent",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.10.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}
