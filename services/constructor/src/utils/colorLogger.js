@@ -7,5 +7,9 @@ const colorMapping = {
 const resetChar = "\x1b[0m";
 
 module.exports.log = (message, name) => {
-    console.log(colorMapping[name[0].toUpperCase()] + message + resetChar);
+    let firstNameLetter = name[0].toUpperCase();
+    if(firstNameLetter in colorMapping)
+        console.log(colorMapping[name[0].toUpperCase()] + message + resetChar);
+    else
+        console.log(message);
 }
