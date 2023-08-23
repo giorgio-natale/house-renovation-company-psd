@@ -29,5 +29,12 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
         }
     }
 
+    console.log("Received RFQ #" + rfqNumber);
+    req.body.items.forEach(item => {
+        console.log(" - " + item.title);
+    });
+
+    console.log("Evaluated RFQ #" + rfqNumber + " with status " + db.quotationDb[rfqNumber].quotation.status);
+
     sender.sendResponse(res, 201, db.quotationDb[rfqNumber].quotation);
 }

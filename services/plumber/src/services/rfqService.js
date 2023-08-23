@@ -16,6 +16,13 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
         quotation: null
     }
 
+    console.log("Received RFQ #" + rfqNumber);
+    req.body.items.forEach(item => {
+        console.log(" - " + item.title);
+    });
+
+    console.log("Evaluating RFQ #" + rfqNumber + " ...");
+
     setTimeout(() => {
         if(Math.random() >= 0.2){
             const pricedItems = rfq["items"].map(i => ({...i, price: Math.floor(Math.random() * 100)}))

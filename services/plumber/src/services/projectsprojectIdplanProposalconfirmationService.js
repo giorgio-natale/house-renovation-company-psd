@@ -16,6 +16,8 @@ module.exports.updatePlanProposalConfirmation = function updatePlanProposalConfi
 
     db.projectDb[projId].planProposal.confirmation = "CONFIRMED";
 
+    console.log("Received plan proposal confermation for project #" + projId);
+
     db.projectDb[projId].jobs = db.projectDb[projId].jobs.filter(job => job.status !== "NOT_STARTED");
     
     db.projectDb[projId].jobs = [

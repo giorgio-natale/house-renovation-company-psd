@@ -14,8 +14,13 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
         confirmation: "PENDING"
     }
 
-
     let planProposalStatus;
+
+    console.log("Received plan proposal for project #" + projId);
+    console.log("Date         Title");
+    req.body.jobProposals.forEach(job => {
+        console.log(job.startDateTime.slice(0,10) + "   " + job.title);
+    });
 
     if(Math.random() >= 0.2) {
         planProposalStatus = "ACCEPTED";
@@ -37,7 +42,10 @@ module.exports.registerPlanProposal = function registerPlanProposal(req, res) {
         });
     }
 
-    db.projectDb[projId].planProposal.status = planProposalStatus;        
+    db.projectDb[projId].planProposal.status = planProposalStatus;  
+
+    console.log("Evaluated plan proposal for project #" + projId + " with status " + planProposalStatus);
+      
 }
 
 module.exports.deletePlanProposal = function deletePlanProposal(req, res) {

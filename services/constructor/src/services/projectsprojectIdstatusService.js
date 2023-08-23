@@ -10,5 +10,10 @@ module.exports.updateProjectStatus = function updateProjectStatus(req, res) {
     }
 
     db.projectDb[projId].status = req.body.status;
+
+    console.log("Project #" + projId + " has now status " + req.body.status);
+    console.log("##################################################");
+    console.log("##################################################");
+    
     sender.sendResponse(res, 200);
 }

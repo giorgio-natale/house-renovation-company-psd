@@ -20,6 +20,13 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
         quotation: null
     }
 
+    console.log("Received RFQ #" + rfqNumber);
+    req.body.rfq.items.forEach(item => {
+        console.log(" - " + item.title);
+    });
+
+    console.log("Evaluating RFQ #" + rfqNumber + " ...");
+
     setTimeout(() => {
         if(Math.random() >= 0.2){
             const pricedItems = rfq["items"].map(i => ({...i, price: Math.floor(Math.random() * 100)}))
@@ -32,6 +39,8 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
                 status: "CANCELLED"
             }
         }
+
+        console.log("Evaluated RFQ #" + rfqNumber + " with status " + db.quotationDb[rfqNumber].quotation.status);
 
         axios({
             method: "put",

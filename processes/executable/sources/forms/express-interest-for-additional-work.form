@@ -1,7 +1,7 @@
 {
   "components": [
     {
-      "text": "# Jobs are all completed!",
+      "text": "# All jobs are finished!",
       "type": "text",
       "layout": {
         "row": "Row_1vg0b4k",

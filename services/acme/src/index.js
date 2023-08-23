@@ -16,6 +16,7 @@ const config = { baseUrl: 'http://localhost:8080/engine-rest', use: logger, asyn
 const camundaClient = new Client(config);
 const lockDurationMillis = 60 * 60 * 1000;
 const weekTimeoutMillis = 300000;
+// const weekTimeoutMillis = 3000;
 const optimisticLockDelay = 200;
 
 
@@ -110,23 +111,27 @@ initialize(app, config).then(() => {
                                 value.response = res.data;
                             }
                         }).catch((err) => {
-                            console.log("Failed to get an rfq to plumber #" + plumberId);
+                            console.log("Failed to get an rfq to plumber #" + value.plumberId);
                             console.log(err);
                         });
                     }
                 });
                 if(!Object.entries(rfqs).some(([rfqNumber, value]) => {return value.response === null})){
+                    setTimeout(async () => {
+                        let processVariables = new Variables().set("plumbersQuotations", JSON.stringify(rfqs));
+                        await taskService.complete(task, processVariables);
+                        clearInterval(pollingTimer);
+                        clearTimeout(weekTimeout);
+                    }, optimisticLockDelay * 2);
+                }
+            }else{
+                console.log("A week has expired!");
+                setTimeout(async () => {
                     let processVariables = new Variables().set("plumbersQuotations", JSON.stringify(rfqs));
                     await taskService.complete(task, processVariables);
                     clearInterval(pollingTimer);
                     clearTimeout(weekTimeout);
-                }
-            }else{
-                console.log("A week has expired!");
-                let processVariables = new Variables().set("plumbersQuotations", JSON.stringify(rfqs));
-                await taskService.complete(task, processVariables);
-                clearInterval(pollingTimer);
-                clearTimeout(weekTimeout);
+                }, optimisticLockDelay * 2);
             }
 
         }, 1000);
@@ -141,10 +146,12 @@ initialize(app, config).then(() => {
         let processContext = {task: task, taskService: taskService, rfqs: {}, weekTimeoutExpired: false}
 
         setTimeout(async () => {
-            processContext.weekTimeoutExpired = true;
-            let processVariables = new Variables().set("electriciansQuotations", JSON.stringify(processContext.rfqs));
-            await processContext.taskService.complete(processContext.task, processVariables);
-        }, weekTimeoutMillis);
+            setTimeout(async () => {
+                processContext.weekTimeoutExpired = true;
+                let processVariables = new Variables().set("electriciansQuotations", JSON.stringify(processContext.rfqs));
+                await processContext.taskService.complete(processContext.task, processVariables);    
+            }, optimisticLockDelay);
+           }, weekTimeoutMillis);
 
         let rfqs = {};
 

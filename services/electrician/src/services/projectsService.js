@@ -29,6 +29,8 @@ module.exports.registerProject = function registerProject(req, res) {
 
     generatedProjId = db.getNextVal("projectId").toString();
 
+    console.log("Received confermation for project #" + generatedProjId + " (associated to RFQ #" + rfqNumber + ")");
+
     db.projectDb[generatedProjId] = {
         project: {
             id: generatedProjId,
