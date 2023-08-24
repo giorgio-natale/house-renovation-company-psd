@@ -24,18 +24,20 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
     console.log("Evaluating RFQ #" + rfqNumber + " ...");
 
     setTimeout(() => {
-        if(Math.random() >= 0.2){
-            const pricedItems = rfq["items"].map(i => ({...i, price: Math.floor(Math.random() * 100)}))
-            db.quotationDb[rfqNumber].quotation = {
-                pricedItems: pricedItems,
-                status: "READY"
-            }
-        } else {
-            db.quotationDb[rfqNumber].quotation = {
-                status: "CANCELLED"
+        if(rfqNumber in db.quotationDb){
+            if(Math.random() >= 0.2){
+                const pricedItems = rfq["items"].map(i => ({...i, price: Math.floor(Math.random() * 100)}))
+                db.quotationDb[rfqNumber].quotation = {
+                    pricedItems: pricedItems,
+                    status: "READY"
+                }
+            } else {
+                db.quotationDb[rfqNumber].quotation = {
+                    status: "CANCELLED"
+                }
             }
         }
-    }, 1000);
+    }, 6000);
 
     sender.sendResponse(res, 201, {
         rfqNumber: rfqNumber,

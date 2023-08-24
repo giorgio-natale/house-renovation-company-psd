@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1v0f5rj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1v0f5rj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:process id="Process_0w8suqf" name="Select third parties" isExecutable="true" camunda:historyTimeToLive="100">
     <bpmn:startEvent id="Event_0tslh8n">
       <bpmn:outgoing>Flow_0qxsyw4</bpmn:outgoing>
@@ -23,9 +23,9 @@
       <bpmn:outgoing>Flow_1esv0f8</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:inclusiveGateway id="Gateway_1xy1qpd">
-      <bpmn:incoming>Flow_15jzjkc</bpmn:incoming>
       <bpmn:incoming>Flow_0lbzil6</bpmn:incoming>
       <bpmn:incoming>Flow_07c5rie</bpmn:incoming>
+      <bpmn:incoming>Flow_15jzjkc</bpmn:incoming>
       <bpmn:outgoing>Flow_16yknkc</bpmn:outgoing>
     </bpmn:inclusiveGateway>
     <bpmn:endEvent id="Event_1c1u921">
@@ -102,19 +102,24 @@ execution.setVariable("winnerConstructor", JSON.stringify(winner));</bpmn:script
     <bpmn:sequenceFlow id="Flow_07c5rie" sourceRef="Activity_18is88i" targetRef="Gateway_1xy1qpd" />
     <bpmn:sequenceFlow id="Flow_16yknkc" sourceRef="Gateway_1xy1qpd" targetRef="Gateway_18wqlaz" />
     <bpmn:sequenceFlow id="Flow_1msjomh" name="Yes" sourceRef="Gateway_18wqlaz" targetRef="Event_1c1u921">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">(!JSON.parse(execution.getVariable("activities")).plumber.isNeeded || JSON.parse(execution.getVariable("winnerPlumber")) !== null) &amp;&amp; 
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">let result = (!JSON.parse(execution.getVariable("activities")).plumber.isNeeded || JSON.parse(execution.getVariable("winnerPlumber")) !== null) &amp;&amp; 
 (!JSON.parse(execution.getVariable("activities")).electrician.isNeeded || JSON.parse(execution.getVariable("winnerElectrician")) !== null) &amp;&amp; 
-(!JSON.parse(execution.getVariable("activities")).constructor.isNeeded || JSON.parse(execution.getVariable("winnerConstructor")) !== null)</bpmn:conditionExpression>
+(!JSON.parse(execution.getVariable("activities")).constructor.isNeeded || JSON.parse(execution.getVariable("winnerConstructor")) !== null);
+result;</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0oeeh0r" name="No" sourceRef="Gateway_18wqlaz" targetRef="Event_0j3yf42">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">(!(!JSON.parse(execution.getVariable("activities")).plumber.isNeeded || JSON.parse(execution.getVariable("winnerPlumber")) !== null) &amp;&amp; 
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">let result = (!JSON.parse(execution.getVariable("activities")).plumber.isNeeded || JSON.parse(execution.getVariable("winnerPlumber")) !== null) &amp;&amp; 
 (!JSON.parse(execution.getVariable("activities")).electrician.isNeeded || JSON.parse(execution.getVariable("winnerElectrician")) !== null) &amp;&amp; 
-(!JSON.parse(execution.getVariable("activities")).constructor.isNeeded || JSON.parse(execution.getVariable("winnerConstructor")) !== null))</bpmn:conditionExpression>
+(!JSON.parse(execution.getVariable("activities")).constructor.isNeeded || JSON.parse(execution.getVariable("winnerConstructor")) !== null);
+!result;</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmn:escalation id="Escalation_27nl3tk" name="Escalation_27nl3tk" escalationCode="Escalation_27nl3tk" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0w8suqf">
+      <bpmndi:BPMNShape id="Event_0tslh8n_di" bpmnElement="Event_0tslh8n">
+        <dc:Bounds x="152" y="237" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_154i1m8_di" bpmnElement="Gateway_1e0wapp">
         <dc:Bounds x="352" y="230" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -135,6 +140,9 @@ execution.setVariable("winnerConstructor", JSON.stringify(winner));</bpmn:script
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0ewbq7s" bpmnElement="Gateway_1xy1qpd">
         <dc:Bounds x="835" y="230" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1c1u921_di" bpmnElement="Event_1c1u921">
+        <dc:Bounds x="1234" y="237" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0kas613_di" bpmnElement="Activity_0aglt9h">
         <dc:Bounds x="700" y="55" width="100" height="80" />
@@ -159,12 +167,6 @@ execution.setVariable("winnerConstructor", JSON.stringify(winner));</bpmn:script
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1036" y="460" width="62" height="40" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0tslh8n_di" bpmnElement="Event_0tslh8n">
-        <dc:Bounds x="152" y="237" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1c1u921_di" bpmnElement="Event_1c1u921">
-        <dc:Bounds x="1234" y="237" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0qxsyw4_di" bpmnElement="Flow_0qxsyw4">
         <di:waypoint x="188" y="255" />

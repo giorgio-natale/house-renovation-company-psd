@@ -28,28 +28,29 @@ module.exports.registerRequestForQuotation = function registerRequestForQuotatio
     console.log("Evaluating RFQ #" + rfqNumber + " ...");
 
     setTimeout(() => {
-        if(Math.random() >= 0.2){
-            const pricedItems = rfq["items"].map(i => ({...i, price: Math.floor(Math.random() * 100)}))
-            db.quotationDb[rfqNumber].quotation = {
-                pricedItems: pricedItems,
-                status: "READY"
+        if(rfqNumber in db.quotationDb) {
+            if(Math.random() >= 0.2){
+                const pricedItems = rfq["items"].map(i => ({...i, price: Math.floor(Math.random() * 100)}))
+                db.quotationDb[rfqNumber].quotation = {
+                    pricedItems: pricedItems,
+                    status: "READY"
+                }
+            } else {
+                db.quotationDb[rfqNumber].quotation = {
+                    status: "CANCELLED"
+                }
             }
-        } else {
-            db.quotationDb[rfqNumber].quotation = {
-                status: "CANCELLED"
-            }
+
+            console.log("Evaluated RFQ #" + rfqNumber + " with status " + db.quotationDb[rfqNumber].quotation.status);
+
+            axios({
+                method: "put",
+                url: callbackUrl,
+                data: db.quotationDb[rfqNumber].quotation
+            })
+            .then(res => {})
+            .catch((err) => console.log("Response from rfq callback: " + err));
         }
-
-        console.log("Evaluated RFQ #" + rfqNumber + " with status " + db.quotationDb[rfqNumber].quotation.status);
-
-        axios({
-            method: "put",
-            url: callbackUrl,
-            data: db.quotationDb[rfqNumber].quotation
-          })
-          .then(res => {})
-          .catch((err) => console.log("Response from rfq callback: " + err));
-        
     }, 10000);
 
     sender.sendResponse(res, 201);

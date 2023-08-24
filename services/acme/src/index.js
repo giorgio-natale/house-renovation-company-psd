@@ -15,8 +15,7 @@ const config = { baseUrl: 'http://localhost:8080/engine-rest', use: logger, asyn
 //TODO: set lock duration to a lot (>1h)
 const camundaClient = new Client(config);
 const lockDurationMillis = 60 * 60 * 1000;
-const weekTimeoutMillis = 300000;
-// const weekTimeoutMillis = 3000;
+const weekTimeoutMillis = 15000;
 const optimisticLockDelay = 200;
 
 
@@ -54,6 +53,7 @@ initialize(app, config).then(() => {
         await taskService.extendLock(task, lockDurationMillis);
         let weekTimeoutExpired = false;
         let weekTimeout = setTimeout(() => {
+            console.log("[PLUMBERS]: A week has expired!");
             weekTimeoutExpired = true;
         }, weekTimeoutMillis);
         console.log("Exchanging quotation with plumbers...");
@@ -125,7 +125,6 @@ initialize(app, config).then(() => {
                     }, optimisticLockDelay * 2);
                 }
             }else{
-                console.log("A week has expired!");
                 setTimeout(async () => {
                     let processVariables = new Variables().set("plumbersQuotations", JSON.stringify(rfqs));
                     await taskService.complete(task, processVariables);
@@ -144,12 +143,12 @@ initialize(app, config).then(() => {
         await taskService.extendLock(task, lockDurationMillis);
 
         let processContext = {task: task, taskService: taskService, rfqs: {}, weekTimeoutExpired: false}
-
-        setTimeout(async () => {
+        processContext.weekTimeout = setTimeout(async () => {
+            console.log("[ELECTRICIANS]: A week has expired!");
             setTimeout(async () => {
                 processContext.weekTimeoutExpired = true;
                 let processVariables = new Variables().set("electriciansQuotations", JSON.stringify(processContext.rfqs));
-                await processContext.taskService.complete(processContext.task, processVariables);    
+                await processContext.taskService.complete(processContext.task, processVariables);
             }, optimisticLockDelay);
            }, weekTimeoutMillis);
 
@@ -196,8 +195,9 @@ initialize(app, config).then(() => {
             });
             
         });
-
-        electriciansQuotationsStatus.push({...processContext, rfqs: rfqs});
+        
+        processContext.rfqs = rfqs;
+        electriciansQuotationsStatus.push(processContext);
     });
 
     camundaClient.subscribe('constructors-quotation-exchange', async function({ task, taskService }) {
@@ -205,6 +205,7 @@ initialize(app, config).then(() => {
         await taskService.extendLock(task, lockDurationMillis);
         let weekTimeoutExpired = false;
         let weekTimeout = setTimeout(() => {
+            console.log("[CONSTRUCTOR]: A week has expired!");
             weekTimeoutExpired = true;
         }, weekTimeoutMillis);
         let rfqs = {};

@@ -10,6 +10,7 @@ export async function updateQuotation(req, res) {
         processContext.rfqs[rfqNumber].response = req.body;
     
         if(!Object.entries(processContext.rfqs).some(([rfqNumber, value]) => {return value.response === null})){
+            clearTimeout(processContext.weekTimeout);
             let processVariables = new Variables().set("electriciansQuotations", JSON.stringify(processContext.rfqs));
             await processContext.taskService.complete(processContext.task, processVariables);
         };
