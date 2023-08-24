@@ -98,6 +98,45 @@
       "key": "squareMeters"
     },
     {
+      "text": "#### Third parties to involve",
+      "type": "text",
+      "layout": {
+        "row": "Row_0cft573",
+        "columns": null
+      },
+      "id": "Field_1jg4x7d"
+    },
+    {
+      "label": "plumber",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0f8s26i",
+        "columns": null
+      },
+      "id": "Field_161u147",
+      "key": "plumberIsNeeded"
+    },
+    {
+      "label": "electrician",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_1l0qgmi",
+        "columns": null
+      },
+      "id": "Field_12wazt8",
+      "key": "electricianIsNeeded"
+    },
+    {
+      "label": "constructor",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0tw6rs8",
+        "columns": null
+      },
+      "id": "Field_1f8v3my",
+      "key": "constructorIsNeeded"
+    },
+    {
       "action": "submit",
       "label": "Send request",
       "type": "button",

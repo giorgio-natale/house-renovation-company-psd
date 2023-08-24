@@ -36,7 +36,7 @@ module.exports.registerProject = function registerProject(req, res) {
             id: generatedProjId,
             status: "IN_PROGRESS"
         },
-        planProposals: {},
+        planProposal: {},
         jobs: []
     }
 

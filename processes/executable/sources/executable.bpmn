@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0dhg705" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0dhg705" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:process id="Process_09rn0fe" name="Main process" isExecutable="true" camunda:historyTimeToLive="100">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_0xqizep</bpmn:outgoing>
@@ -8,7 +8,13 @@
     <bpmn:scriptTask id="Activity_1kfpcfn" name="Define activities" scriptFormat="javascript">
       <bpmn:incoming>Flow_00ie7r5</bpmn:incoming>
       <bpmn:outgoing>Flow_167xq9h</bpmn:outgoing>
-      <bpmn:script>execution.setVariable("activities",'{"plumber":{"isNeeded":true,"items":[{"title":"P1","description":"a1"},{"title":"P2","description":"a2"},{"title":"P3","description":"a3"}]},"electrician":{"isNeeded":true,"items":[{"title":"E1","description":"a1"},{"title":"E2","description":"a2"},{"title":"E3","description":"a3"}]},"constructor":{"isNeeded":true,"items":[{"title":"C1","description":"a1"},{"title":"C2","description":"a2"},{"title":"C3","description":"a3"}]}}');
+      <bpmn:script>let plumberIsNeeded = execution.getVariable('plumberIsNeeded');
+let electricianIsNeeded = execution.getVariable('electricianIsNeeded');
+let constructorIsNeeded = execution.getVariable('constructorIsNeeded');
+
+let activities = {"plumber":{"isNeeded": plumberIsNeeded,"items":[{"title":"P1","description":"a1"},{"title":"P2","description":"a2"},{"title":"P3","description":"a3"}]},"electrician":{"isNeeded":electricianIsNeeded,"items":[{"title":"E1","description":"a1"},{"title":"E2","description":"a2"},{"title":"E3","description":"a3"}]},"constructor":{"isNeeded":constructorIsNeeded,"items":[{"title":"C1","description":"a1"},{"title":"C2","description":"a2"},{"title":"C3","description":"a3"}]}};
+
+execution.setVariable("activities", JSON.stringify(activities));
 
 let customerContact = {
   name: execution.getVariable('name'),
@@ -25,7 +31,7 @@ let site = {
   squareMeters: execution.getVariable('squareMeters')
 };
 
-execution.setVariable("site", JSON.stringify(site));</bpmn:script>
+execution.setVariable("site", JSON.stringify(site)); </bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="Flow_167xq9h" sourceRef="Activity_1kfpcfn" targetRef="Process_0w8suqf" />
     <bpmn:boundaryEvent id="Event_0wl0sj4" name="Third parties deemed unavailable" attachedToRef="Process_0w8suqf">

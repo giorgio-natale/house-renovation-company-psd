@@ -20,7 +20,7 @@ A typical interaction between the House Renovation Company (HRC) and a third par
 1. The HRC sends a request for quotation to the TPS (`POST /rfq`);
 2. The TPS answers with a quotation with status `READY` if the TPS is interested in the rfq, `CANCELLED` otherwise. In the latter case the interaction ends;
 3. If the HRC does not select the TPS as a partner for the requested work, it informs the TPS (`DELETE /rfq/{rfqNumber}`), otherwise it sends to the TPS the information about the project (`POST /projects`);
-4. The HRC sends a proposal for the schedule of the activities to be performed by the TPS (`POST /projects/{projectId}/planProposals`);
+4. The HRC sends a proposal for the schedule of the activities to be performed by the TPS (`POST /projects/{projectId}/planProposal`);
 5. The TPS evaluates the proposal and informs the HRC about its decision;
 6. Repeat from point 4 until a proposal has been accepted by the TPS;
 7. The HRC monitors the progress of the jobs (`GET /projects/{projectId}/jobs`);

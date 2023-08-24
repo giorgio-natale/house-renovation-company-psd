@@ -37,7 +37,7 @@ module.exports.registerProject = function registerProject(req, res) {
             status: "IN_PROGRESS",
             ...req.body
         },
-        planProposals: [],
+        planProposal: {},
         jobs: []
     }
 
@@ -50,4 +50,3 @@ module.exports.registerProject = function registerProject(req, res) {
         }
     });
 }
-

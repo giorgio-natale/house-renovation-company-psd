@@ -21,7 +21,7 @@ module.exports.getJobs = function getJobs(req, res) {
 
     if(jobs[0].status === "NOT_STARTED") {
         let nextJobStatus;
-        if(Math.random() >= 0.2) {
+        if(Math.random() >= 0.3) {
             nextJobStatus = "COMPLETED";
         } else {
             nextJobStatus = "FAILED";
