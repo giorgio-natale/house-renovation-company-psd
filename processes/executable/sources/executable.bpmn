@@ -10,6 +10,7 @@
       <bpmn:outgoing>Flow_167xq9h</bpmn:outgoing>
       <bpmn:script>let plumberIsNeeded = execution.getVariable('plumberIsNeeded');
 let electricianIsNeeded = execution.getVariable('electricianIsNeeded');
+
 let constructorIsNeeded = execution.getVariable('constructorIsNeeded');
 
 let activities = {"plumber":{"isNeeded": plumberIsNeeded,"items":[{"title":"P1","description":"a1"},{"title":"P2","description":"a2"},{"title":"P3","description":"a3"}]},"electrician":{"isNeeded":electricianIsNeeded,"items":[{"title":"E1","description":"a1"},{"title":"E2","description":"a2"},{"title":"E3","description":"a3"}]},"constructor":{"isNeeded":constructorIsNeeded,"items":[{"title":"C1","description":"a1"},{"title":"C2","description":"a2"},{"title":"C3","description":"a3"}]}};
@@ -647,7 +648,7 @@ if(JSON.parse(execution.getVariable("activities")).constructor.isNeeded) {
         <di:waypoint x="2450" y="577" />
         <di:waypoint x="2450" y="275" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2272" y="516" width="15" height="14" />
+          <dc:Bounds x="2282" y="559" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_1etqkt4" bpmnElement="Flow_1bn6i6b">
