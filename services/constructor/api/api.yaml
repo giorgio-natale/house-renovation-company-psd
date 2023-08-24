@@ -401,9 +401,6 @@ components:
       title: Project
       type: object
       properties:
-        id:
-          type: string
-          readOnly: true
         name:
           type: string
         startDate:
@@ -423,6 +420,9 @@ components:
             planProposal:
               type: string
               format: uri
+          readOnly: true
+        id:
+          type: string
           readOnly: true
       required:
         - id
@@ -510,9 +510,6 @@ components:
       title: PlanProposal
       type: object
       properties:
-        id:
-          type: string
-          readOnly: true
         jobProposals:
           type: array
           items:
@@ -531,7 +528,6 @@ components:
               format: uri
           readOnly: true
       required:
-        - id
         - jobProposals
         - links
     PlanProposalStatus:

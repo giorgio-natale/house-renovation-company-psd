@@ -46,7 +46,7 @@ module.exports.registerProject = function registerProject(req, res) {
         id: generatedProjId,
         links: {
             projectStatus: `${__baseUrl}/projects/${generatedProjId}/status`,
-            planProposals: `${__baseUrl}/projects/${generatedProjId}/planProposals`
+            planProposal: `${__baseUrl}/projects/${generatedProjId}/planProposal`
         }
     });
 }

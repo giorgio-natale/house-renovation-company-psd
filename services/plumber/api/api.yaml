@@ -428,9 +428,6 @@ components:
       title: Project
       type: object
       properties:
-        id:
-          type: string
-          readOnly: true
         name:
           type: string
         startDate:
@@ -450,6 +447,9 @@ components:
             planProposals:
               type: string
               format: uri
+          readOnly: true
+        id:
+          type: string
           readOnly: true
       required:
         - id
