@@ -78,6 +78,18 @@ Created with Workflow PetriNet Designer Version 3.2.0 (woped.org)-->
         <dimension x="40" y="40"/>
       </graphics>
     </place>
+    <place id="p7">
+      <name>
+        <text/>
+        <graphics>
+          <offset x="1480" y="290"/>
+        </graphics>
+      </name>
+      <graphics>
+        <position x="1480" y="250"/>
+        <dimension x="40" y="40"/>
+      </graphics>
+    </place>
     <place id="p8">
       <name>
         <text/>
@@ -94,11 +106,11 @@ Created with Workflow PetriNet Designer Version 3.2.0 (woped.org)-->
       <name>
         <text>Process ended</text>
         <graphics>
-          <offset x="1670" y="290"/>
+          <offset x="1850" y="290"/>
         </graphics>
       </name>
       <graphics>
-        <position x="1670" y="250"/>
+        <position x="1851" y="250"/>
         <dimension x="40" y="40"/>
       </graphics>
     </place>
@@ -174,11 +186,28 @@ Created with Workflow PetriNet Designer Version 3.2.0 (woped.org)-->
       <name>
         <text>EndProcess</text>
         <graphics>
-          <offset x="1460" y="290"/>
+          <offset x="1640" y="290"/>
         </graphics>
       </name>
       <graphics>
-        <position x="1460" y="250"/>
+        <position x="1641" y="250"/>
+        <dimension x="40" y="40"/>
+      </graphics>
+      <toolspecific tool="WoPeD" version="1.0">
+        <time>0</time>
+        <timeUnit>1</timeUnit>
+        <orientation>1</orientation>
+      </toolspecific>
+    </transition>
+    <transition id="t9">
+      <name>
+        <text>Review quotation</text>
+        <graphics>
+          <offset x="1370" y="290"/>
+        </graphics>
+      </name>
+      <graphics>
+        <position x="1370" y="250"/>
         <dimension x="40" y="40"/>
       </graphics>
       <toolspecific tool="WoPeD" version="1.0">
@@ -223,7 +252,7 @@ Created with Workflow PetriNet Designer Version 3.2.0 (woped.org)-->
     </transition>
     <transition id="t3">
       <name>
-        <text>12 hours ellapsed</text>
+        <text>12 hours elapsed</text>
         <graphics>
           <offset x="550" y="290"/>
         </graphics>
@@ -310,7 +339,7 @@ Created with Workflow PetriNet Designer Version 3.2.0 (woped.org)-->
         <displayProbabilityPosition x="500.0" y="12.0"/>
       </toolspecific>
     </arc>
-    <arc id="a45" source="p8" target="t8">
+    <arc id="a15" source="p8" target="t9">
       <inscription>
         <text>1</text>
         <graphics>
@@ -325,6 +354,34 @@ Created with Workflow PetriNet Designer Version 3.2.0 (woped.org)-->
       </toolspecific>
     </arc>
     <arc id="a14" source="t6" target="p8">
+      <inscription>
+        <text>1</text>
+        <graphics>
+          <offset x="500.0" y="-12.0"/>
+        </graphics>
+      </inscription>
+      <graphics/>
+      <toolspecific tool="WoPeD" version="1.0">
+        <probability>1.0</probability>
+        <displayProbabilityOn>false</displayProbabilityOn>
+        <displayProbabilityPosition x="500.0" y="12.0"/>
+      </toolspecific>
+    </arc>
+    <arc id="a17" source="p7" target="t8">
+      <inscription>
+        <text>1</text>
+        <graphics>
+          <offset x="500.0" y="-12.0"/>
+        </graphics>
+      </inscription>
+      <graphics/>
+      <toolspecific tool="WoPeD" version="1.0">
+        <probability>1.0</probability>
+        <displayProbabilityOn>false</displayProbabilityOn>
+        <displayProbabilityPosition x="500.0" y="12.0"/>
+      </toolspecific>
+    </arc>
+    <arc id="a16" source="t9" target="p7">
       <inscription>
         <text>1</text>
         <graphics>
@@ -469,7 +526,7 @@ Created with Workflow PetriNet Designer Version 3.2.0 (woped.org)-->
         <position x="2" y="24"/>
         <dimension x="1519" y="546"/>
       </bounds>
-      <scale>99</scale>
+      <scale>59</scale>
       <treeWidthRight>1199</treeWidthRight>
       <overviewPanelVisible>true</overviewPanelVisible>
       <treeHeightOverview>100</treeHeightOverview>
