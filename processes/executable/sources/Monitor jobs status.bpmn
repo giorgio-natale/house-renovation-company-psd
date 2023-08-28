@@ -55,7 +55,7 @@ execution.setVariable("today", JSON.stringify(today.toJSON().slice(0, 10)));</bp
       <bpmn:outgoing>Flow_0r2ccpl</bpmn:outgoing>
       <bpmn:outgoing>Flow_0zttxx1</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="Event_17cml80">
+    <bpmn:endEvent id="Event_17cml80" name="Jobs OK">
       <bpmn:incoming>Flow_0r2ccpl</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0r2ccpl" name="No" sourceRef="Gateway_07i3lzo" targetRef="Event_17cml80">
@@ -68,7 +68,7 @@ execution.setVariable("today", JSON.stringify(today.toJSON().slice(0, 10)));</bp
 (!JSON.parse(execution.getVariable("activities")).electrician.isNeeded || JSON.parse(execution.getVariable("electricianLastJobStatus")).status === "COMPLETED") &amp;&amp; 
 (!JSON.parse(execution.getVariable("activities")).constructor.isNeeded || JSON.parse(execution.getVariable("constructorLastJobStatus")).status === "COMPLETED"))</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:endEvent id="Event_1rgajob">
+    <bpmn:endEvent id="Event_1rgajob" name="Jobs failed">
       <bpmn:incoming>Flow_0zttxx1</bpmn:incoming>
       <bpmn:escalationEventDefinition id="EscalationEventDefinition_0635cjh" escalationRef="Escalation_2qist1c" />
     </bpmn:endEvent>
@@ -77,11 +77,17 @@ execution.setVariable("today", JSON.stringify(today.toJSON().slice(0, 10)));</bp
   <bpmn:escalation id="Escalation_2qist1c" name="Escalation_0uak7vo" escalationCode="Escalation_0uak7vo" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0izg4o3">
+      <bpmndi:BPMNShape id="Event_0aeslr4_di" bpmnElement="Event_0aeslr4">
+        <dc:Bounds x="152" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1kq2kro_di" bpmnElement="Gateway_198tvbq">
         <dc:Bounds x="507" y="265" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="438" y="253" width="87" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0xpn8j2_di" bpmnElement="Gateway_0h5e7bs">
+        <dc:Bounds x="851" y="265" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1eb5afa_di" bpmnElement="Activity_119xsq4">
         <dc:Bounds x="660" y="61" width="100" height="80" />
@@ -93,14 +99,8 @@ execution.setVariable("today", JSON.stringify(today.toJSON().slice(0, 10)));</bp
       <bpmndi:BPMNShape id="Activity_1t6abax_di" bpmnElement="Activity_061cdi8">
         <dc:Bounds x="660" y="441" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0aeslr4_di" bpmnElement="Event_0aeslr4">
-        <dc:Bounds x="152" y="272" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0sapru8_di" bpmnElement="Activity_02dv4ok">
         <dc:Bounds x="290" y="250" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0xpn8j2_di" bpmnElement="Gateway_0h5e7bs">
-        <dc:Bounds x="851" y="265" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_07i3lzo_di" bpmnElement="Gateway_07i3lzo" isMarkerVisible="true">
         <dc:Bounds x="1024" y="265" width="50" height="50" />
@@ -110,13 +110,19 @@ execution.setVariable("today", JSON.stringify(today.toJSON().slice(0, 10)));</bp
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_17cml80_di" bpmnElement="Event_17cml80">
         <dc:Bounds x="1181" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1178" y="315" width="43" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1szplxc_di" bpmnElement="Event_1rgajob">
         <dc:Bounds x="1031" y="422" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1023" y="465" width="53" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0jzv3fc_di" bpmnElement="Flow_0jzv3fc">
-        <di:waypoint x="390" y="290" />
-        <di:waypoint x="507" y="290" />
+      <bpmndi:BPMNEdge id="Flow_1gpqk3z_di" bpmnElement="Flow_1gpqk3z">
+        <di:waypoint x="188" y="290" />
+        <di:waypoint x="290" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0glcnrb_di" bpmnElement="Flow_0glcnrb">
         <di:waypoint x="532" y="265" />
@@ -141,6 +147,10 @@ execution.setVariable("today", JSON.stringify(today.toJSON().slice(0, 10)));</bp
           <dc:Bounds x="539" y="463" width="63" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y8ks55_di" bpmnElement="Flow_1y8ks55">
+        <di:waypoint x="901" y="290" />
+        <di:waypoint x="1024" y="290" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_06jmpup_di" bpmnElement="Flow_06jmpup">
         <di:waypoint x="760" y="101" />
         <di:waypoint x="876" y="101" />
@@ -155,13 +165,9 @@ execution.setVariable("today", JSON.stringify(today.toJSON().slice(0, 10)));</bp
         <di:waypoint x="876" y="481" />
         <di:waypoint x="876" y="315" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1gpqk3z_di" bpmnElement="Flow_1gpqk3z">
-        <di:waypoint x="188" y="290" />
-        <di:waypoint x="290" y="290" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1y8ks55_di" bpmnElement="Flow_1y8ks55">
-        <di:waypoint x="901" y="290" />
-        <di:waypoint x="1024" y="290" />
+      <bpmndi:BPMNEdge id="Flow_0jzv3fc_di" bpmnElement="Flow_0jzv3fc">
+        <di:waypoint x="390" y="290" />
+        <di:waypoint x="507" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0r2ccpl_di" bpmnElement="Flow_0r2ccpl">
         <di:waypoint x="1074" y="290" />
