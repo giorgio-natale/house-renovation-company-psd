@@ -181,7 +181,7 @@ paths:
               $ref: '#/components/schemas/ProjectStatus'
             example:
               status: IN_PROGRESS
-  '/projects/{projectId}/planProposals':
+  '/projects/{projectId}/planProposal':
     post:
       parameters:
       - schema:
@@ -200,7 +200,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlanProposal'
+                $ref: '#/components/schemas/PlanProposalStatus'
         '400':
           description: Bad Request
           content:
@@ -230,38 +230,57 @@ paths:
                 description: Water flow test
                 startDateTime: '2023-04-20T09:00:00.000Z'
                 endDateTime: '2023-04-20T17:00:00.000Z'
-  '/projects/{projectId}/planProposals/{planProposalId}/status':
-    get:
-      parameters:
-      - schema:
-          type: string
-        example: "1"
-        name: projectId
-        in: path
-        required: true
-      - schema:
-          type: string
-        example: "1"
-        name: planProposalId
-        in: path
-        required: true
+    delete:
       summary: ''
+      parameters:
+        - schema:
+            type: string
+          example: "1"
+          name: projectId
+          in: path
+          required: true
       tags:
         - project
+      operationId: deletePlanProposal
       responses:
         '200':
           description: OK
+        '500':
+          description: Internal Server Error
+          
+  '/projects/{projectId}/planProposal/confirmation':
+    put:
+      summary: ''
+      parameters:
+        - schema:
+            type: string
+          example: "1"
+          name: projectId
+          in: path
+          required: true
+      tags:
+        - project
+      operationId: updatePlanProposalConfirmation
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlanProposalStatus'
-        '202':
-          description: Accepted
+                type: string
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: getPlanProposalStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanConfirmation'
+            example: 
+              status: CONFIRMED
   '/projects/{projectId}/jobs':
     get:
       parameters:
@@ -439,12 +458,12 @@ components:
           type: object
           required:
             - projectStatus
-            - planProposals
+            - planProposal
           properties:
             projectStatus:
               type: string
               format: uri
-            planProposals:
+            planProposal:
               type: string
               format: uri
           readOnly: true
@@ -527,9 +546,6 @@ components:
       title: PlanProposal
       type: object
       properties:
-        id:
-          type: string
-          readOnly: true
         jobProposals:
           type: array
           items:
@@ -537,14 +553,17 @@ components:
         links:
           type: object
           required:
-            - planProposalStatus
+            - status
+            - project
           properties:
-            planProposalStatus:
+            status:
+              type: string
+              format: uri
+            project:
               type: string
               format: uri
           readOnly: true
       required:
-        - id
         - jobProposals
         - links
     PlanProposalStatus:
@@ -559,13 +578,27 @@ components:
         links:
           type: object
           properties:
-            planProposals:
+            planProposal:
               type: string
-              format: uri
+              format: uri          
+          readOnly: true
+      required:
+        - status
+    PlanConfirmation:
+      title: PlanConfirmation
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - CONFIRMED
+            - PENDING
+        links:
+          type: object
+          properties:
             jobs:
               type: string
               format: uri            
           readOnly: true
       required:
         - status
-        - links
