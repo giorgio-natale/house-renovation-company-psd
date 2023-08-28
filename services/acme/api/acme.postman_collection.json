@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "21f0e3f5-9d9a-4fd8-8a26-e7c17c3d4ef4",
+		"name": "api-acme",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26373513"
+	},
+	"item": [
+		{
+			"name": "quotation",
+			"item": [
+				{
+					"name": "update Quotation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pricedItems\": [\n    {\n      \"title\": \"Electric cables installation\",\n      \"description\": \"Installation of cables\",\n      \"price\": 410\n    },\n    {\n      \"title\": \"Light points check\",\n      \"description\": \"Checking Light points\",\n      \"price\": 80\n    },\n    {\n      \"title\": \"Electric flow test\",\n      \"description\": \"Electric flow test\",\n      \"price\": 827\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rfq/:rfqNumber/quotation",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rfq",
+								":rfqNumber",
+								"quotation"
+							],
+							"variable": [
+								{
+									"key": "rfqNumber",
+									"value": "RFQ1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pricedItems\": [\n    {\n      \"title\": \"Electric cables installation\",\n      \"description\": \"Installation of cables\",\n      \"price\": 410\n    },\n    {\n      \"title\": \"Light points check\",\n      \"description\": \"Checking Light points\",\n      \"price\": 80\n    },\n    {\n      \"title\": \"Electric flow test\",\n      \"description\": \"Electric flow test\",\n      \"price\": 827\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/rfq/:rfqNumber/quotation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"rfq",
+										":rfqNumber",
+										"quotation"
+									],
+									"variable": [
+										{
+											"key": "rfqNumber"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pricedItems\": [\n    {\n      \"title\": \"Electric cables installation\",\n      \"description\": \"Installation of cables\",\n      \"price\": 410\n    },\n    {\n      \"title\": \"Light points check\",\n      \"description\": \"Checking Light points\",\n      \"price\": 80\n    },\n    {\n      \"title\": \"Electric flow test\",\n      \"description\": \"Electric flow test\",\n      \"price\": 827\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/rfq/:rfqNumber/quotation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"rfq",
+										":rfqNumber",
+										"quotation"
+									],
+									"variable": [
+										{
+											"key": "rfqNumber"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "qui non ullamco dolor dolore"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pricedItems\": [\n    {\n      \"title\": \"Electric cables installation\",\n      \"description\": \"Installation of cables\",\n      \"price\": 410\n    },\n    {\n      \"title\": \"Light points check\",\n      \"description\": \"Checking Light points\",\n      \"price\": 80\n    },\n    {\n      \"title\": \"Electric flow test\",\n      \"description\": \"Electric flow test\",\n      \"price\": 827\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/rfq/:rfqNumber/quotation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"rfq",
+										":rfqNumber",
+										"quotation"
+									],
+									"variable": [
+										{
+											"key": "rfqNumber"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pricedItems\": [\n    {\n      \"title\": \"Electric cables installation\",\n      \"description\": \"Installation of cables\",\n      \"price\": 410\n    },\n    {\n      \"title\": \"Light points check\",\n      \"description\": \"Checking Light points\",\n      \"price\": 80\n    },\n    {\n      \"title\": \"Electric flow test\",\n      \"description\": \"Electric flow test\",\n      \"price\": 827\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/rfq/:rfqNumber/quotation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"rfq",
+										":rfqNumber",
+										"quotation"
+									],
+									"variable": [
+										{
+											"key": "rfqNumber"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:9000"
+		}
+	]
+}

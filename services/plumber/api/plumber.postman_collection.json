@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "2e7e357c-d810-40ed-845b-6555a744eacb",
-		"name": "plumber",
+		"_postman_id": "2bf7ad7f-b28b-42ae-ab5c-b0e5e27b23ab",
+		"name": "api-plumber",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17605779"
+		"_exporter_id": "26373513"
 	},
 	"item": [
 		{
@@ -52,6 +52,10 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
 									}
 								],
 								"body": {
@@ -84,7 +88,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"rfqNumber\": \"sint est\",\n  \"links\": {\n    \"quotation\": \"https://YmRx.epBzbRmomoWPQ.+i,KE\"\n  }\n}"
+							"body": "{\n  \"rfqNumber\": \"eu ut sed e\",\n  \"links\": {\n    \"quotation\": \"http://RYbpu.vtuHUo0gG8YxPJjWL7z4U+xoP4cWbNLCXY1vvi1kEWz59tPIvcm7e,wYgPVCCB\"\n  }\n}"
 						},
 						{
 							"name": "Bad Request",
@@ -93,6 +97,10 @@
 								"header": [
 									{
 										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
 										"value": "application/json"
 									}
 								],
@@ -126,7 +134,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "minim deserunt laboris"
+							"body": "Ut enim sit"
 						},
 						{
 							"name": "Internal Server Error",
@@ -200,7 +208,12 @@
 							"name": "OK",
 							"originalRequest": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}/rfq/:rfqNumber/quotation",
 									"host": [
@@ -228,7 +241,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"status\": \"CANCELLED\",\n  \"pricedItems\": [\n    {\n      \"title\": \"exercitation et aliquip\",\n      \"price\": -55026852.676918246,\n      \"description\": \"in deserunt in velit adipisicing\"\n    },\n    {\n      \"title\": \"qui\",\n      \"price\": 62949565.949955314,\n      \"description\": \"\"\n    }\n  ]\n}"
+							"body": "{\n  \"status\": \"READY\",\n  \"pricedItems\": [\n    {\n      \"title\": \"minim anim et sunt pariatur\",\n      \"price\": -24011745.682525426,\n      \"description\": \"exercitation\"\n    },\n    {\n      \"title\": \"do r\",\n      \"price\": 75112461.42199033,\n      \"description\": \"dolore adipisicing\"\n    }\n  ]\n}"
 						},
 						{
 							"name": "Accepted",
@@ -448,6 +461,10 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
 									}
 								],
 								"body": {
@@ -480,7 +497,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"id\": \"eu deserunt sit commodo\",\n  \"name\": \"voluptate\",\n  \"startDate\": \"2014-08-08\",\n  \"rfqNumber\": \"dolor dolore ea sed\",\n  \"links\": {\n    \"projectStatus\": \"http://CeIumRTFavSGhGXPIkpANZSddNgeImq.fyrv9\",\n    \"planProposals\": \"https://EhGgEndFaqwFxLEXiY.dbqRLrR6phJOeu0Al-Hwt4fVCgUMw5f5N7OTyhB4HsqSm6jup6O4yRrCuXghe5\"\n  }\n}"
+							"body": "{\n  \"id\": \"commodo consectetur in ex\",\n  \"name\": \"nostrud enim proident adipisicing\",\n  \"startDate\": \"1970-09-25\",\n  \"rfqNumber\": \"ipsum irure\",\n  \"links\": {\n    \"projectStatus\": \"https://fsytPBvOK.itaxDK2ioiX8BjQIGnlMYIQ\",\n    \"planProposal\": \"https://OjMLtACYEpRSyqqZPjMjZyCUbp.cbmyRrfDRfNDoa5Zho7O-N\"\n  }\n}"
 						},
 						{
 							"name": "Bad Request",
@@ -489,6 +506,10 @@
 								"header": [
 									{
 										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
 										"value": "application/json"
 									}
 								],
@@ -522,7 +543,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "minim deserunt laboris"
+							"body": "Ut enim sit"
 						},
 						{
 							"name": "Internal Server Error",
@@ -658,6 +679,10 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
 									}
 								],
 								"body": {
@@ -697,7 +722,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "minim deserunt laboris"
+							"body": "Ut enim sit"
 						},
 						{
 							"name": "Not Found",
@@ -814,14 +839,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+							"raw": "{{baseUrl}}/projects/:projectId/planProposal",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"projects",
 								":projectId",
-								"planProposals"
+								"planProposal"
 							],
 							"variable": [
 								{
@@ -840,6 +865,10 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
 									}
 								],
 								"body": {
@@ -853,14 +882,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"projects",
 										":projectId",
-										"planProposals"
+										"planProposal"
 									],
 									"variable": [
 										{
@@ -879,7 +908,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"id\": \"id ipsum ex esse\",\n  \"jobProposals\": [\n    {\n      \"title\": \"Lorem ad esse\",\n      \"description\": \"deserunt pariatur\",\n      \"startDateTime\": \"1967-02-10T17:58:44.919Z\",\n      \"endDateTime\": \"1996-08-11T09:16:16.462Z\"\n    },\n    {\n      \"title\": \"labore sint do\",\n      \"description\": \"in cupidatat nulla id\",\n      \"startDateTime\": \"1963-12-09T18:20:44.464Z\",\n      \"endDateTime\": \"1990-09-12T11:45:17.848Z\"\n    }\n  ],\n  \"links\": {\n    \"planProposalStatus\": \"http://uNOVECxgWtUVUCezX.dcSnmafIuJB1\"\n  }\n}"
+							"body": "{\n  \"status\": \"DECLINED\",\n  \"links\": {\n    \"planProposal\": \"https://dagMWzgoelDEubqGuYNjdSDIRHRx.rbfeTxQOyP9Tl6tINP,CQDPcCibRPOBj+38pow.nWmvWG2hikI,M-WH\"\n  }\n}"
 						},
 						{
 							"name": "Bad Request",
@@ -888,6 +917,10 @@
 								"header": [
 									{
 										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
 										"value": "application/json"
 									}
 								],
@@ -902,14 +935,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"projects",
 										":projectId",
-										"planProposals"
+										"planProposal"
 									],
 									"variable": [
 										{
@@ -928,7 +961,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "minim deserunt laboris"
+							"body": "Ut enim sit"
 						},
 						{
 							"name": "Not Found",
@@ -951,14 +984,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"projects",
 										":projectId",
-										"planProposals"
+										"planProposal"
 									],
 									"variable": [
 										{
@@ -995,14 +1028,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/projects/:projectId/planProposals",
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"projects",
 										":projectId",
-										"planProposals"
+										"planProposal"
 									],
 									"variable": [
 										{
@@ -1021,34 +1054,23 @@
 					]
 				},
 				{
-					"name": "get Plan Proposal Status",
+					"name": "delete Plan Proposal",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
+						"method": "DELETE",
+						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/projects/:projectId/planProposals/:planProposalId/status",
+							"raw": "{{baseUrl}}/projects/:projectId/planProposal",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"projects",
 								":projectId",
-								"planProposals",
-								":planProposalId",
-								"status"
+								"planProposal"
 							],
 							"variable": [
 								{
 									"key": "projectId",
-									"value": "1"
-								},
-								{
-									"key": "planProposalId",
 									"value": "1"
 								}
 							]
@@ -1058,32 +1080,196 @@
 						{
 							"name": "OK",
 							"originalRequest": {
-								"method": "GET",
+								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/projects/:projectId/planProposals/:planProposalId/status",
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"projects",
 										":projectId",
-										"planProposals",
-										":planProposalId",
-										"status"
+										"planProposal"
 									],
 									"variable": [
 										{
 											"key": "projectId"
-										},
-										{
-											"key": "planProposalId"
 										}
 									]
 								}
 							},
 							"status": "OK",
 							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"planProposal"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Plan Proposal Confirmation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"CONFIRMED\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/planProposal/confirmation",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"planProposal",
+								"confirmation"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"CONFIRMED\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal/confirmation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"planProposal",
+										"confirmation"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"CONFIRMED\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal/confirmation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"planProposal",
+										"confirmation"
+									],
+									"variable": [
+										{
+											"key": "projectId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
@@ -1092,65 +1278,42 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"status\": \"ACCEPTED\",\n  \"links\": {\n    \"planProposals\": \"https://CruqvdpToDjsiOkdlKfcwJnNojyT.pndOpXlltec1e3zXf6R76PQ\",\n    \"jobs\": \"http://PJKSUGBHRASVgwVfKViqrOIUloHnG.atftXfzyNBnopgYr3Pa0DuDAWB.U3G2cCEEntLnM\"\n  }\n}"
-						},
-						{
-							"name": "Accepted",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/projects/:projectId/planProposals/:planProposalId/status",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"projects",
-										":projectId",
-										"planProposals",
-										":planProposalId",
-										"status"
-									],
-									"variable": [
-										{
-											"key": "projectId"
-										},
-										{
-											"key": "planProposalId"
-										}
-									]
-								}
-							},
-							"status": "Accepted",
-							"code": 202,
-							"_postman_previewlanguage": "text",
-							"header": [],
-							"cookie": [],
-							"body": ""
+							"body": "Ut enim sit"
 						},
 						{
 							"name": "Not Found",
 							"originalRequest": {
-								"method": "GET",
-								"header": [],
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"CONFIRMED\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{baseUrl}}/projects/:projectId/planProposals/:planProposalId/status",
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal/confirmation",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"projects",
 										":projectId",
-										"planProposals",
-										":planProposalId",
-										"status"
+										"planProposal",
+										"confirmation"
 									],
 									"variable": [
 										{
 											"key": "projectId"
-										},
-										{
-											"key": "planProposalId"
 										}
 									]
 								}
@@ -1165,26 +1328,37 @@
 						{
 							"name": "Internal Server Error",
 							"originalRequest": {
-								"method": "GET",
-								"header": [],
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"CONFIRMED\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{baseUrl}}/projects/:projectId/planProposals/:planProposalId/status",
+									"raw": "{{baseUrl}}/projects/:projectId/planProposal/confirmation",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"projects",
 										":projectId",
-										"planProposals",
-										":planProposalId",
-										"status"
+										"planProposal",
+										"confirmation"
 									],
 									"variable": [
 										{
 											"key": "projectId"
-										},
-										{
-											"key": "planProposalId"
 										}
 									]
 								}
@@ -1237,7 +1411,12 @@
 							"name": "OK",
 							"originalRequest": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}/projects/:projectId/jobs?date=2023-04-18",
 									"host": [
@@ -1271,13 +1450,18 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"jobs\": [\n    {\n      \"id\": \"nulla ad\",\n      \"title\": \"mollit ut cupidatat exercitation\",\n      \"description\": \"m\",\n      \"startDateTime\": \"1953-03-11T10:49:36.789Z\",\n      \"endDateTime\": \"1991-12-23T06:18:02.640Z\",\n      \"numberOfRequiredPlumbers\": 25441922,\n      \"status\": \"FAILED\"\n    },\n    {\n      \"id\": \"cillum dolor laborum\",\n      \"title\": \"enim ut anim Duis\",\n      \"description\": \"nisi pariatur\",\n      \"startDateTime\": \"2006-05-05T23:28:13.514Z\",\n      \"endDateTime\": \"1998-07-04T09:53:48.369Z\",\n      \"numberOfRequiredPlumbers\": -88998542,\n      \"status\": \"NOT_STARTED\"\n    }\n  ],\n  \"links\": {\n    \"projectStatus\": \"http://HnXvasFrMuSeFscbCzUCOG.wxsGZc9Jd3+gzBg-NR12av,kNrQej6SLoaHvOcjG4ALei4uVOO8JtZ9FsLE\"\n  }\n}"
+							"body": "{\n  \"jobs\": [\n    {\n      \"id\": \"amet dolo\",\n      \"title\": \"reprehenderit aute Duis\",\n      \"description\": \"ipsum aliqua elit\",\n      \"startDateTime\": \"1975-03-27T13:06:31.503Z\",\n      \"endDateTime\": \"1963-07-23T09:30:24.172Z\",\n      \"numberOfRequiredPlumbers\": 50252394,\n      \"status\": \"COMPLETED\"\n    },\n    {\n      \"id\": \"consequat ex ea voluptate amet\",\n      \"title\": \"nostrud quis anim\",\n      \"description\": \"veniam id cillum Duis\",\n      \"startDateTime\": \"1976-05-18T23:55:45.243Z\",\n      \"endDateTime\": \"1977-04-18T09:59:17.442Z\",\n      \"numberOfRequiredPlumbers\": -40485424,\n      \"status\": \"IN_PROGRESS\"\n    }\n  ],\n  \"links\": {\n    \"projectStatus\": \"http://dCuBCZSB.mnmnjLCio26bN,qpzAaUXAQCPK54g8nAixmcCVEljPJDpcuXz\"\n  }\n}"
 						},
 						{
 							"name": "Bad Request",
 							"originalRequest": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}/projects/:projectId/jobs?date=2023-04-18",
 									"host": [
@@ -1311,7 +1495,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "minim deserunt laboris"
+							"body": "Ut enim sit"
 						},
 						{
 							"name": "Not Found",
