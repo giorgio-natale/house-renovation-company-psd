@@ -38,6 +38,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Quotation'
+            example:
+              pricedItems:
+                - title: Electric cables installation
+                  description: Installation of cables
+                  price: 410
+                - title: Light points check
+                  description: Checking Light points
+                  price: 80
+                - title: Electric flow test
+                  description: Electric flow test
+                  price: 827
 components:
   schemas:
     Quotation:
@@ -55,7 +66,6 @@ components:
             - CANCELLED
       required:
         - status
-
     QuotationPricedItem:
       title: QuotationPricedItem
       type: object
